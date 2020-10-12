@@ -14,12 +14,17 @@ public class Employee {
     private Long employeeId;
     private String userName;
     private String password;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "profileId" /*, referencedColumnName = "employeeId"*/)
     private Profile profile;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "employee_events",
             joinColumns = {@JoinColumn(name = "employeeId")},
             inverseJoinColumns = {@JoinColumn(name = "eventId")})
     private List<Event> joinedEvents;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "eventId" /*, referencedColumnName = "employeeId"*/)
+    private Event myEvent;
 
     public Employee() {
     }
