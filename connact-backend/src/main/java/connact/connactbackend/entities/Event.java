@@ -20,7 +20,6 @@ public class Event {
     private Date dateStart;
     private Date dateEnd;
     private String state;
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne(mappedBy = "myEvent")
     private Employee employee;
 }

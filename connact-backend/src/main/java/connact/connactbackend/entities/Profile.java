@@ -14,8 +14,7 @@ public class Profile {
     private Long profileId;
     private String displayName;
     private String education;
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne(mappedBy = "profile")
     private Employee employee;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "profile_skills",
