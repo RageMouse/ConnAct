@@ -75,7 +75,14 @@
       </v-card-actions>
     </v-card>
     <br />
-    <v-alert class="elevation-12 mx-auto" outlined type="success" text :value="eventError" max-width="1000px">
+    <v-alert
+      class="elevation-12 mx-auto"
+      outlined
+      type="success"
+      text
+      :value="eventError"
+      max-width="1000px"
+    >
       Event has succesfully been created!
     </v-alert>
   </v-container>
@@ -100,21 +107,21 @@ export default {
   methods: {
     send: function () {
       this.axios
-      .post("http://192.168.99.100:8089/event/", {
-        eventName: this.eventName,
-        eventDescription: this.eventDescription,
-        dateStart: this.dateStart,
-        dateEnd: this.dateEnd,
-      })
-      .then((response) => {
-        console.log(response.status);
-        if (response.status !== 204) {
-          this.alertSucces = true;
-        }
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+        .post("http://192.168.99.100:8089/event/", {
+          eventName: this.eventName,
+          eventDescription: this.eventDescription,
+          dateStart: this.dateStart,
+          dateEnd: this.dateEnd,
+        })
+        .then((response) => {
+          console.log(response.status);
+          if (response.status !== 204) {
+            this.alertSucces = true;
+          }
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     },
   },
 
