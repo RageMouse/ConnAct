@@ -5,7 +5,7 @@
         <v-toolbar-title>Create Event</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form ref="form" lazy-validation>
           <v-text-field
             id="eventName"
             v-model="eventName"
@@ -25,7 +25,6 @@
           ></v-textarea>
 
           <v-menu
-            v-model="menu2"
             :close-on-content-click="true"
             :nudge-right="40"
             transition="scale-transition"
@@ -44,13 +43,11 @@
             </template>
             <v-date-picker
               v-model="dateStart"
-              @input="menu2 = true"
               :min="getNowDate"
             ></v-date-picker>
           </v-menu>
 
           <v-menu
-            v-model="menu2"
             :close-on-content-click="true"
             :nudge-right="40"
             transition="scale-transition"
@@ -67,24 +64,20 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="dateEnd"
-              @input="menu2 = true"
-              :min="dateStart"
-            ></v-date-picker>
+            <v-date-picker v-model="dateEnd" :min="dateStart"></v-date-picker>
           </v-menu>
-
-          <v-btn
-            id="validateButton"
-            :disabled="!valid"
-            color="success"
-            class="mr-4"
-            @click="validate"
-            >Validate</v-btn
-          >
         </v-form>
       </v-card-text>
+      <v-card-actions
+        ><v-btn id="validateButton" color="success" class="mr-4" @click="send"
+          >Sumbit</v-btn
+        >
+      </v-card-actions>
     </v-card>
+    <br />
+    <v-alert class="elevation-12 mx-auto" outlined type="success" text :value="eventError" max-width="1000px">
+      Event has succesfully been created!
+    </v-alert>
   </v-container>
 </template>
 
@@ -101,9 +94,29 @@ export default {
     dateEnd: "",
     state: "",
     selectedDate: null,
+    alertSucces: false,
   }),
 
-  methods: {},
+  methods: {
+    send: function () {
+      this.axios
+      .post("http://192.168.99.100:8089/event/", {
+        eventName: this.eventName,
+        eventDescription: this.eventDescription,
+        dateStart: this.dateStart,
+        dateEnd: this.dateEnd,
+      })
+      .then((response) => {
+        console.log(response.status);
+        if (response.status !== 204) {
+          this.alertSucces = true;
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    },
+  },
 
   computed: {
     getNowDate() {
