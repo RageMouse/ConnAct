@@ -80,7 +80,7 @@
       outlined
       type="success"
       text
-      :value="eventError"
+      :value="alertSucces"
       max-width="1000px"
     >
       Event has succesfully been created!
