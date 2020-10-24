@@ -1,0 +1,34 @@
+version: '3'
+
+# the services being used
+services:
+  # the first service is spring boot back end
+  backend:
+    # build the image using the dockerfile in the current folder
+    build: .
+    # run a wait script that waits for the database to be ready and then
+    # start the spring boot application
+    entrypoint: sh -c "/wait && java -jar /app.jar"
+    ports:
+      - "8089:8089"
+    depends_on:
+      - db
+    environment:
+      # used by the /wait script
+      WAIT_HOSTS: "db:3306"
+  # the second service is a mariadb container
+  db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - connact-mariadb:/var/lib/mysql
+    environment:
+      # create a database at startup
+      MYSQL_DATABASE: "connact"
+      # create password for root user which is the only mandatory environment variable
+      MYSQL_ROOT_PASSWORD: "mypass"
+
+# Names our volume
+volumes:
+  connact-mariadb:
