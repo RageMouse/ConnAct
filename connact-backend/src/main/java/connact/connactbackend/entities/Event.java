@@ -22,4 +22,15 @@ public class Event {
     private String state;
     @OneToOne(mappedBy = "myEvent")
     private Employee employee;
+
+    public Event() {
+
+    }
+
+    public Event(String eventName, String description, Date dateStart, Date dateEnd) {
+        this.eventName = eventName;
+        this.description = description;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+    }
 }
