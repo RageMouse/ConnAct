@@ -16,6 +16,11 @@ public class EventController {
     @Autowired
     private EventRepo eventRepo;
 
+    @GetMapping(path = "/" )
+    public Iterable<Event> events() {
+        return eventRepo.findAll();
+    }
+
     @PostMapping("/")
     public ResponseEntity<?> createAuction(@RequestBody EventCreateModel eventCreateModel) {
         if (eventCreateModel.getEventName() == null || eventCreateModel.getEventDescription() == null || eventCreateModel.getDateStart() == null || eventCreateModel.getDateEnd() == null) {
