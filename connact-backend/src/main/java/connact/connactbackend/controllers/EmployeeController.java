@@ -18,4 +18,14 @@ public class EmployeeController {
     public String test(){
         return "this is a test";
     }
+
+    @PostMapping("/")
+    public ResponseEntity<?> createAuction(@RequestBody EmployeeCreateModel employeeCreateModel) {
+        if (employeeCreateModel.getUserName() == null || employeeCreateModel.getPassword() == null) {
+            return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
+        }
+        Employee employee = new Employee(employeeCreateModel.getUserName(), employeeCreateModel.getPassword());
+        employeeRepo.save(employee);
+        return new ResponseEntity<>(employee, HttpStatus.CREATED);
+    }
 }
