@@ -79,7 +79,7 @@
       type="success"
       text
       :value="alertSucces"
-      max-width="1000px"
+      max-width="400"
     >
       Event has succesfully been created!
     </v-alert>
