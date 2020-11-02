@@ -1,8 +1,14 @@
 package connact.connactbackend.controllers;
 
-import connact.connactbackend.entities.Profile;
+import connact.connactbackend.entities.Employee;
+import connact.connactbackend.models.EmployeeCreateModel;
 import connact.connactbackend.repositories.EmployeeRepo;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class EmployeeController {
     private EmployeeRepo employeeRepo;
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(){
-        return "this is a test";
-    }
 
     @PostMapping("/")
     public ResponseEntity<?> createAuction(@RequestBody EmployeeCreateModel employeeCreateModel) {
