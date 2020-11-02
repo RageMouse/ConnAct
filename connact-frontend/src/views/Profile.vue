@@ -22,7 +22,7 @@ export default {
     MyProfile
   },
    data: () => ({
-     showProfile: true,
+     showProfile: false,
      showProfileForm: true,
   }),
   methods: {
