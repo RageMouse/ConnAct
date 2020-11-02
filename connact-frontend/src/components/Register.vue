@@ -10,7 +10,7 @@
                   <v-flex xs12>
                     <v-text-field
                       name="username"
-                      label="username"
+                      label="Username"
                       id="username"
                       v-model="username"
                       type="username"
@@ -41,10 +41,20 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
-                    <v-btn type="submit">Sign up</v-btn>
+                    <v-btn @click="send">Sign up</v-btn>
                   </v-flex>
                 </v-layout>
               </form>
+              <v-alert
+      class="elevation-12 mx-auto"
+      outlined
+      type="success"
+      text
+      :value="alertSucces"
+      max-width="1000px"
+    >
+      Registered!
+    </v-alert>
             </v-container>
           </v-card-text>
         </v-card>
@@ -59,16 +69,17 @@
       return {
         username: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        alertSucces: false
       }
     },
     computed: {
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
       },
-      user () {
-        return this.$store.getters.user
-      }
+      //user () {
+      //  return this.$store.getters.user
+      //}
     },
     watch: {
       user (value) {
@@ -78,19 +89,22 @@
       }
     },
     methods: {
-      onSignup () {
-        this.$store.dispatch('signUserUp', {username: this.username, password: this.password})
-      },
+      //onSignup () {
+     //   this.$store.dispatch('signUserUp', {username: this.username, password: this.password})
+     // },
       send: function () {
       this.axios
-        .post("http://192.168.99.100:8089/employee/", {
-          username: this.username,
+        .post("http://192.168.178.21:8089/employee/", {
+          userName: this.username,
           password: this.password,
         })
         .then((response) => {
           console.log(response.status);
           if (response.status !== 204) {
             this.alertSucces = true;
+          }
+          else{
+            this.aler
           }
         })
         .catch((error) => {

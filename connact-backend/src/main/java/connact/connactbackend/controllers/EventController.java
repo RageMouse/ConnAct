@@ -18,6 +18,7 @@ public class EventController {
 
     @PostMapping("/")
     public ResponseEntity<?> createAuction(@RequestBody EventCreateModel eventCreateModel) {
+        System.out.println("WORDT DIE EVENTAANGEROEPEN?");
         if (eventCreateModel.getEventName() == null || eventCreateModel.getEventDescription() == null || eventCreateModel.getDateStart() == null || eventCreateModel.getDateEnd() == null) {
             return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
         }
