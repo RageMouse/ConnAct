@@ -20,7 +20,7 @@
             v-model="education"
             :counter="25"
             :rules="nameRules"
-            label="education"
+            label="Education"
             required
           ></v-text-field>
 
@@ -29,7 +29,7 @@
                 :items="skills.map(skill => skill.name)"
                 attach
                 chips
-                label="Add Skills"
+                label="Add skills"
                 multiple
             />
 
@@ -56,6 +56,7 @@
       text
       :value="alertSucces"
       max-width="1000px"
+      style="width: 400px;"
     >
       Profile has succesfully been created!
     </v-alert>
@@ -97,6 +98,7 @@ export default {
           console.log(error.response);
         });
     },
+    
   },
 
   computed: {
