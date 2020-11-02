@@ -25,7 +25,7 @@
           ></v-text-field>
 
             <v-select
-                v-model="skills"
+                v-model="selectedSkills"
                 :items="skills.map(skill => skill.name)"
                 attach
                 chips
@@ -34,7 +34,7 @@
             />
 
             <v-select
-                v-model="interests"
+                v-model="selectedInterests"
                 :items="interests.map(interest => interest.name)"
                 attach
                 chips
@@ -68,14 +68,25 @@ export default {
   data: () => ({
     displayName: "",
     education: "",
-    skills: [{"name": "skill1"},{"name":"skill2"}],
-    interests: [{"name": "interest1"},{"name":"interest2"}],
+    skills: [],
+    selectedSkills: [],
+    interests: [],
+    selectedInterests: [],
     alertSucces: false,
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 25) || "Name must be less than 25 characters",
     ],
   }),
+  
+  mounted() {
+    this.axios
+      .get("http://192.168.99.100:8089/skill/")
+      .then((response) => (this.skills = response.data));
+    this.axios
+      .get("http://192.168.99.100:8089/interest/")
+      .then((response) => (this.interests = response.data));
+  },
 
   methods: {
     send: function () {
@@ -85,24 +96,28 @@ export default {
           {
             displayName: this.displayName,
             education: this.education,
-            skills: this.skills,
-            interests: this.interests
+            skills: this.selectedSkills,
+            interests: this.selectedInterests
           })
-        .then(response => {
-          console.log(response.status);
-          if (response.status !== 204) {
-            this.alertSucces = true;
-          }
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
+          .then(response => {
+            console.log(response.status);
+            if (response.status !== 204) {
+              this.alertSucces = true;
+            }
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+          this.hideForm()
     },
-    
+    hideForm: function (){
+      this.$parent.hideForm();
+    }
+
   },
 
   computed: {
-
-  },
+    
+  }
 };
 </script>

@@ -26,9 +26,9 @@ export default {
      showProfileForm: true,
   }),
   methods: {
-    showProfile(){
-      this.showProfile = true;
-      this.showProfileForm = false;
+    hideForm(){
+      this.showProfile = true
+      this.showProfileForm = false
     },
   }
 }

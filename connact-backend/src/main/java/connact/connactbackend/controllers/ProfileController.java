@@ -1,6 +1,5 @@
 package connact.connactbackend.controllers;
 
-import connact.connactbackend.entities.Event;
 import connact.connactbackend.entities.Interest;
 import connact.connactbackend.entities.Profile;
 import connact.connactbackend.entities.Skill;
@@ -11,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,6 +24,11 @@ public class ProfileController {
     @GetMapping(path = "/" )
     public Iterable<Profile> profiles() {
         return profileRepo.findAll();
+    }
+
+    @GetMapping(path = "/{id}" )
+    public Optional<Profile> findById(@PathVariable("id") Long id) {
+        return profileRepo.findById(id);
     }
 
     @PostMapping("/")

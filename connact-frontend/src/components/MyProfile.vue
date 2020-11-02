@@ -11,11 +11,11 @@
             ></v-img>
         
             <v-card-title>
-                {{displayName}}
+                {{project.displayName}}
             </v-card-title>
         
             <v-card-subtitle>
-                {{education}}
+                {{project.education}}
             </v-card-subtitle>
         
             <v-card-actions>
@@ -54,10 +54,8 @@
 <script>
 export default {
   data: () => ({
-    displayName: "",
-    education: "",
-    skills: [],
-    interests: [],
+    project: {},
+    show: false,
   }),
 
   methods: {
@@ -65,6 +63,9 @@ export default {
 
     },
     
+  },
+  mounted() {
+
   },
 
   computed: {
