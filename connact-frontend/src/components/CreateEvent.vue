@@ -69,9 +69,7 @@
         </v-form>
       </v-card-text>
       <v-card-actions
-        ><v-btn id="validateButton" color="success" class="mr-4" @click="send"
-          >Sumbit</v-btn
-        >
+        ><v-btn id="validateButton" color="success" @click="send">Sumbit</v-btn>
       </v-card-actions>
     </v-card>
     <br />

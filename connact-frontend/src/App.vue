@@ -1,12 +1,10 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
     <v-app-bar app color="primary" dark>
       <router-link style="text-decoration: none; color: inherit;" to="/">
-          <div id="titleName" class="d-flex display-1">ConnAct</div>
+      <v-toolbar-title style="width: 90px">ConnAct</v-toolbar-title>
       </router-link>
-      <v-tabs centered>
-        <v-spacer>
-        </v-spacer>
+      <v-tabs >
         <v-tab to="/myEvents">My Events</v-tab>
         <v-tab to="/chat">Chats</v-tab>
         <v-tab to="/people">People</v-tab>

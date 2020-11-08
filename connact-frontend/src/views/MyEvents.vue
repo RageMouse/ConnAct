@@ -6,7 +6,7 @@
         <CreateEvent
         v-if="showCreateEvent"
         />
-        <v-btn id="createEvent" class="mr-2" depressed small color="primary" @click="toggleCreateEvent">Create Auction</v-btn>
+        <v-btn id="createEvent" class="mr-2" depressed small color="primary" @click="toggleCreateEvent">Create Event</v-btn>
       </v-col>
     </v-row>
   </v-container>
