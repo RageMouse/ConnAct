@@ -21,7 +21,19 @@ export default {
     CreateProfile,
     MyProfile
   },
-   data: () => ({
+  mounted(){
+    this.axios
+      .get("http://192.168.99.100:8089/profile/")
+      .then((response) => {
+          console.log(response.status);
+          if (response.status == 200) {
+            this.showProfile = true
+            this.showProfileForm = false
+          }
+        }
+      );
+  },
+  data: () => ({
      showProfile: false,
      showProfileForm: true,
   }),

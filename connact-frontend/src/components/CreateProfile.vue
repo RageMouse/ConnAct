@@ -111,7 +111,7 @@ export default {
           this.hideForm()
     },
     hideForm: function (){
-      this.$parent.hideForm();
+      this.$parent.hideForm()
     }
 
   },
