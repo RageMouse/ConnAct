@@ -30,6 +30,18 @@ public class Profile {
     public Profile() {
     }
 
+    public Profile(String displayName, String education) {
+        this.displayName = displayName;
+        this.education = education;
+    }
+
+    public Profile(String displayName, String education, List<Skill> skills, List<Interest> interests) {
+        this.displayName = displayName;
+        this.education = education;
+        this.skills = skills;
+        this.interests = interests;
+    }
+
     public Profile(String displayName, String education, Employee employee, List<Skill> skills, List<Interest> interests) {
         this.displayName = displayName;
         this.education = education;
