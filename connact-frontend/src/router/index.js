@@ -7,6 +7,8 @@ import People from '../views/People'
 import Event from '../views/Event'
 import Notification from '../views/Notification'
 import Profile from '../views/Profile'
+import Register from '../views/Register'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
@@ -55,6 +57,16 @@ const routes = [
     path: '/Profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/Register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
   }
 ]
 
