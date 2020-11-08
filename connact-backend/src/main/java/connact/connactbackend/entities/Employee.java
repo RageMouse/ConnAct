@@ -14,6 +14,9 @@ public class Employee {
     private Long employeeId;
     private String userName;
     private String password;
+    private String test;
+    @Lob
+    private byte[] salt;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "profileId" /*, referencedColumnName = "employeeId"*/)
     private Profile profile;
@@ -29,8 +32,9 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String userName, String password) {
+    public Employee(String userName, String password,byte[] salt) {
         this.userName = userName;                            
         this.password = password;
+        this.salt = salt;
     }
 }
