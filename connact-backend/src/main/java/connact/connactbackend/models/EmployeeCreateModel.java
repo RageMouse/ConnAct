@@ -6,5 +6,5 @@ import lombok.Data;
 public class EmployeeCreateModel {
     private String userName;
     private String password;
-    private byte[] salt;
+    private String salt;
 }
