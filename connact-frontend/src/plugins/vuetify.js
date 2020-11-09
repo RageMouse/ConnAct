@@ -1,21 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
 
+Vue.use(Vuetify);
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-    state: {
-        userid: 'test',
-        user: null,
-    },
-    mutations: {
-        updateUserid (state, message) {
-            state.userid = message
-            console.log(this.userid+'dsdsff')
-        }
-    },
-    actions: {
-
-    },
-})
+export default new Vuetify({
+});
