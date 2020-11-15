@@ -6,6 +6,7 @@
         <CreateEvent
         v-if="showCreateEvent"
         />
+        <MyEvents/>
         <v-btn id="createEvent" class="mr-2" depressed small color="primary" @click="toggleCreateEvent">Create Event</v-btn>
       </v-col>
     </v-row>
@@ -15,11 +16,13 @@
 <script>
 // @ is an alias to /src
 import CreateEvent from '@/components/CreateEvent.vue'
+import MyEvents from '@/components/MyEvents.vue'
 
 export default {
   name: 'Home',
   components: {
-    CreateEvent
+    CreateEvent,
+    MyEvents
   },
    data: () => ({
     showCreateEvent: false
