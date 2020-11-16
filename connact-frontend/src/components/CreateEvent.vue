@@ -89,6 +89,7 @@
 <script>
 export default {
   data: () => ({
+    ownerId: "",
     eventName: "",
     nameRules: [
       (v) => !!v || "Name is required",
@@ -106,6 +107,7 @@ export default {
     send: function () {
       this.axios
         .post("http://192.168.99.100:8089/event/", {
+          ownerId: this.$store.getters.userId,
           eventName: this.eventName,
           eventDescription: this.eventDescription,
           dateStart: this.dateStart,

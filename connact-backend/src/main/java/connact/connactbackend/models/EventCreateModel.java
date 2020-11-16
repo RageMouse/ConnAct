@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Data
 public class EventCreateModel {
+    private Long ownerId;
     private String eventName;
     private String eventDescription;
     private Date dateStart;

@@ -13,7 +13,7 @@ public class Event {
     @Id
     @GeneratedValue
     private Long eventId;
-    private String owner;
+    private Long ownerId;
     private String history;
     private String eventName;
     private String description;
@@ -27,7 +27,8 @@ public class Event {
 
     }
 
-    public Event(String eventName, String description, Date dateStart, Date dateEnd) {
+    public Event(Long ownerId ,String eventName, String description, Date dateStart, Date dateEnd) {
+        this.ownerId = ownerId;
         this.eventName = eventName;
         this.description = description;
         this.dateStart = dateStart;
