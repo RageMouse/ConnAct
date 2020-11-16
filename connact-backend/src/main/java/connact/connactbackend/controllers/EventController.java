@@ -26,7 +26,7 @@ public class EventController {
         if (eventCreateModel.getEventName() == null || eventCreateModel.getEventDescription() == null || eventCreateModel.getDateStart() == null || eventCreateModel.getDateEnd() == null) {
             return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
         }
-        Event event = new Event(eventCreateModel.getEventName(), eventCreateModel.getEventDescription(), eventCreateModel.getDateStart(), eventCreateModel.getDateEnd());
+        Event event = new Event(eventCreateModel.getOwnerId(), eventCreateModel.getEventName(), eventCreateModel.getEventDescription(), eventCreateModel.getDateStart(), eventCreateModel.getDateEnd());
         eventRepo.save(event);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
@@ -41,6 +41,6 @@ public class EventController {
 
     @GetMapping("/{userId}")
     public Iterable<Event> events(@PathVariable("userId") String id) {
-        return eventRepo.findEventsByOwner(id);
+        return eventRepo.findEventsByOwnerId(id);
     }
 }
