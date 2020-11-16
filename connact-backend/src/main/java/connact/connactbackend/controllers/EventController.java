@@ -40,7 +40,7 @@ public class EventController {
     }
 
     @GetMapping("/{userId}")
-    public Iterable<Event> events(@PathVariable("userId") String id) {
-        return eventRepo.findEventsByOwnerId(id);
+    public Iterable<Event> events(@PathVariable Long userId) {
+        return eventRepo.findEventsByOwnerId(userId);
     }
 }

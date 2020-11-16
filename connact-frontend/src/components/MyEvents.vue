@@ -35,14 +35,58 @@
 
               <v-spacer></v-spacer>
 
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
+              <v-dialog
+                  v-model="dialog"
+                  persistent
+                  max-width="500"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      color="primary"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      Close event
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="headline">
+                      Are you sure you want to close this event?
+                    </v-card-title>
+                    <v-card-text>This action cannot be undone.</v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="error"
+                        text
+                        @click="dialog = false"
+                      >
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="closeEvent(event.eventId)"
+                      >
+                        Confirm
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+              </v-dialog>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
+    <v-alert 
+        style=""
+        type="success"
+        :value="alert"
+        max-width="1500"
+      >
+        Event has been closed.
+    </v-alert>
   </v-card>
 </template>
 
@@ -57,14 +101,44 @@ export default {
   mounted() {
     this.loadEvents();
     console.log(this.$store.getters.userId)
+    this.dialog = false
+    this.hideAlert()
   },
   methods: {
     loadEvents() {
       return this.$store.dispatch("getMyEvents", this.$store.getters.userId);
     },
+    closeEvent(eventId){
+        this.axios
+        .put("http://192.168.178.20:8089/event/"+ eventId)
+        .then((response) => {
+          console.log(response.status)
+          if (response.status !== 204) {
+            this.alertSucces = true;
+          }
+          this.alert = true
+          this.dialog = false
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    },
+    alertTimer: function () {
+      window.setInterval(() => {
+        this.alert = false;
+      }, 3000)    
+    },
+    hideAlert: function(){
+      if(alert){
+        this.alertTimer();
+      }
+    },
   },
   data: () => ({
     cards: [],
+    dialog: false,
+    eventId: 0,
+    alert: false,
   }),
 };
 </script>

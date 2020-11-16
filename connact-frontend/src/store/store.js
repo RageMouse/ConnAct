@@ -30,7 +30,7 @@ export default new Vuex.Store({
     actions: {
         getMyEvents(context, id) {
             return axios
-                .get("http://192.168.99.100:8089/event/" + id)
+                .get("http://192.168.178.20:8089/event/" + id)
                 .then((response) => {
                     context.commit("setEvents", response.data);
                 })

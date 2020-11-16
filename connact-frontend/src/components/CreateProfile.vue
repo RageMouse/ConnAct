@@ -81,7 +81,7 @@ export default {
   
   mounted() {
     this.axios
-      .get("http://192.168.178.20:8089//skill/")
+      .get("http://192.168.178.20:8089/skill/")
       .then((response) => (this.skills = response.data));
     this.axios
       .get("http://192.168.178.20:8089/interest/")
