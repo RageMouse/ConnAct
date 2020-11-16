@@ -38,4 +38,9 @@ public class EventController {
         eventRepo.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}")
+    public Iterable<Event> events(@PathVariable("userId") String id) {
+        return eventRepo.findEventsByOwner(id);
+    }
 }
