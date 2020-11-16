@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row dense>
         <v-col
-          v-for="card in cards"
+          v-for="card in activeCards"
           :key="card.eventName"
           cols="12"
           md="4"
@@ -62,5 +62,10 @@ export default {
   data: () => ({
     cards: [],
   }),
+  computed: {
+    activeCards: function(){
+      return this.cards.filter(c => c.active==true)
+    },
+  }
 };
 </script>

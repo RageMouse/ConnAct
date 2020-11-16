@@ -58,14 +58,13 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn
-                        color="error"
                         text
                         @click="dialog = false"
                       >
                         Cancel
                       </v-btn>
                       <v-btn
-                        color="green darken-1"
+                        color="primary"
                         text
                         @click="closeEvent(event.eventId)"
                       >
@@ -109,19 +108,19 @@ export default {
       return this.$store.dispatch("getMyEvents", this.$store.getters.userId);
     },
     closeEvent(eventId){
-        this.axios
+      this.axios
         .put("http://192.168.178.20:8089/event/"+ eventId)
         .then((response) => {
           console.log(response.status)
           if (response.status !== 204) {
             this.alertSucces = true;
           }
-          this.alert = true
-          this.dialog = false
+            this.alert = true
+            this.dialog = false
         })
         .catch((error) => {
           console.log(error.response);
-        });
+      });
     },
     alertTimer: function () {
       window.setInterval(() => {
