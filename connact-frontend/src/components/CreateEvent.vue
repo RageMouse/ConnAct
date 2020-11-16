@@ -105,7 +105,7 @@ export default {
   methods: {
     send: function () {
       this.axios
-        .post("http://192.168.99.100:8089/event/", {
+        .post("http://192.168.178.20:8089/event/", {
           eventName: this.eventName,
           eventDescription: this.eventDescription,
           dateStart: this.dateStart,

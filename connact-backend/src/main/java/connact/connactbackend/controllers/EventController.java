@@ -30,4 +30,12 @@ public class EventController {
         eventRepo.save(event);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{eventId}")
+    public ResponseEntity<?> closeEvent(@PathVariable Long eventId){
+        Event event = eventRepo.getByEventId(eventId);
+        event.setActive(false);
+        eventRepo.save(event);
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
 }
