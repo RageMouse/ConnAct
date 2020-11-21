@@ -29,45 +29,60 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag="v-btn"> -->
-              <!-- </router-link> -->
-
+            
             <v-dialog
               v-model="dialog"
               width="500"
+              :retain-focus="false"
+
               >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn 
                   v-bind="attrs"
                   v-on="on"
                   text
+                  @click="openEventDetails(card)"
                   >
                   Details
                 </v-btn>
               </template>
-                
-              <v-card>
-                <v-card-title class="headline grey lighten-2">
-                  {{ card.eventName }}
-                </v-card-title>
-        
-                <v-card-text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </v-card-text>
-        
-                <v-divider></v-divider>
-        
-                <v-card-actions>
-                  <v-spacer></v-spacer>
+
+              <v-card
+                  class="mx-auto"
+                  max-width="500"
+                >
+                  <v-img
+                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                    height="200"
+                  ></v-img>
+
+                  <v-card-title>
+                    {{ eventName }}
+                  </v-card-title>
+
+                  <br/>
+
+                  <v-card-subtitle>
+                    {{ eventDesc }}
+                  </v-card-subtitle>
+
+                  <v-card-text>
+                    {{ eventStart }}
+                  </v-card-text>
+
+                  <v-card-text>
+                    {{ eventEnd }}
+                  </v-card-text>
+
                   <v-btn
-                    color="primary"
+                    color="orange lighten-2"
                     text
-                    @click="dialog = false"
+                    @click="dialog=false"
                   >
-                    Join
+                    Join event
                   </v-btn>
-                </v-card-actions>
-              </v-card>
+
+                </v-card>
 
             </v-dialog>
 
@@ -96,11 +111,23 @@ export default {
         .get("http://192.168.178.20:8089/event/")
         .then((response) => (this.cards = response.data));
     },
+    passEvent: function(eventId){
+      this.selectedEvent = eventId
+    },
+    openEventDetails: function(event){
+      this.eventName = event.eventName
+      this.eventDesc = event.description
+      this.eventStart = event.dateStart
+      this.eventEnd = event.dateEnd
+    },
   },
   data: () => ({
     cards: [],
     dialog: false,
-
+    eventName: "",
+    eventDesc: "",
+    eventStart: 0,
+    eventEnd: 0,
   }),
   computed: {
     activeCards: function(){

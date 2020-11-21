@@ -26,6 +26,7 @@
                 <br/>
                 Date End:
                 {{event.dateEnd}}
+                
               </div>
             </v-card-text>
             <v-card-actions>
@@ -39,6 +40,7 @@
                   v-model="dialog"
                   persistent
                   max-width="500"
+                  :retain-focus="false"
                 >
                   <template
                    v-slot:activator="{ on, attrs }"
@@ -126,10 +128,6 @@ export default {
       });
     },
     passEvent: function(eventId){
-      // let currentEvent = this.cards.filter((card) => {
-      //   return card.eventId == eventId
-      // })
-      // this.selectedEvent = currentEvent.eventId
       this.selectedEvent = eventId
     },
     alertTimer: function () {
