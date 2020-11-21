@@ -29,7 +29,7 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag="v-btn"> -->
+              <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag=v"-btn"> -->
               <v-btn text>Details</v-btn>
               <!-- </router-link> -->
 
@@ -40,12 +40,15 @@
                   persistent
                   max-width="500"
                 >
-                  <template v-slot:activator="{ on, attrs }">
+                  <template
+                   v-slot:activator="{ on, attrs }"
+                  >
                     <v-btn
                       color="primary"
                       dark
                       v-bind="attrs"
                       v-on="on"
+                      @click="passEvent(event.eventId)"
                     >
                       Close event
                     </v-btn>
@@ -66,7 +69,7 @@
                       <v-btn
                         color="primary"
                         text
-                        @click="closeEvent(event.eventId)"
+                        @click="closeEvent(selectedEvent)"
                       >
                         Confirm
                       </v-btn>
@@ -112,15 +115,22 @@ export default {
         .put("http://192.168.178.20:8089/event/"+ eventId)
         .then((response) => {
           console.log(response.status)
+          console.log("eventId: " + eventId)
           if (response.status !== 204) {
-            this.alertSucces = true;
-          }
-            this.alert = true
+            this.alertSucces = true
             this.dialog = false
+          }
         })
         .catch((error) => {
           console.log(error.response);
       });
+    },
+    passEvent: function(eventId){
+      // let currentEvent = this.cards.filter((card) => {
+      //   return card.eventId == eventId
+      // })
+      // this.selectedEvent = currentEvent.eventId
+      this.selectedEvent = eventId
     },
     alertTimer: function () {
       window.setInterval(() => {
@@ -136,7 +146,7 @@ export default {
   data: () => ({
     cards: [],
     dialog: false,
-    eventId: 0,
+    selectedEvent: 0,
     alert: false,
   }),
 };

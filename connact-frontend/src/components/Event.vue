@@ -30,8 +30,46 @@
             </v-card-text>
             <v-card-actions>
               <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag="v-btn"> -->
-              <v-btn text>Details</v-btn>
               <!-- </router-link> -->
+
+            <v-dialog
+              v-model="dialog"
+              width="500"
+              >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn 
+                  v-bind="attrs"
+                  v-on="on"
+                  text
+                  >
+                  Details
+                </v-btn>
+              </template>
+                
+              <v-card>
+                <v-card-title class="headline grey lighten-2">
+                  {{ card.eventName }}
+                </v-card-title>
+        
+                <v-card-text>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </v-card-text>
+        
+                <v-divider></v-divider>
+        
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="dialog = false"
+                  >
+                    Join
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+
+            </v-dialog>
 
               <v-spacer></v-spacer>
 
@@ -61,6 +99,8 @@ export default {
   },
   data: () => ({
     cards: [],
+    dialog: false,
+
   }),
   computed: {
     activeCards: function(){
