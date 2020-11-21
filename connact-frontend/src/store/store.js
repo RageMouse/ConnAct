@@ -8,7 +8,8 @@ export default new Vuex.Store({
     state: {
         userid: '1',
         user: null,
-        events: {}
+        events: {},
+        eventId: ''
     },
     getters: {
         events(state){
@@ -16,6 +17,9 @@ export default new Vuex.Store({
         },
         userId(state){
             return state.userid
+        },
+        eventId(state){
+            return state.eventId
         }
     },
     mutations: {
@@ -26,6 +30,9 @@ export default new Vuex.Store({
         setEvents(state, events){
             state.events = events;
         },
+        setEventId(state, id){
+            state.eventId = id;
+        }
     },
     actions: {
         getMyEvents(context, id) {
@@ -37,6 +44,9 @@ export default new Vuex.Store({
                 .catch(error => {
                     throw new Error(error)
                 });
+        },
+        setEventId(context, id){
+            context.commit("setEventId", id)
         }
     },
 })

@@ -1,10 +1,7 @@
 <template>
-  <v-container>
-    <v-card class="elevation-12 mx-auto" max-width="1000px">
-      <v-toolbar dark color="primary">
-        <v-toolbar-title>Create Event</v-toolbar-title>
-      </v-toolbar>
-      <v-card-text>
+<v-dialog v-model="show" max-width="500px">
+  <v-card>
+    <v-card-text>
         <v-form ref="form" lazy-validation>
           <v-text-field
             id="eventName"
@@ -68,28 +65,34 @@
           </v-menu>
         </v-form>
       </v-card-text>
-      <v-card-actions
-        ><v-btn id="validateButton" color="success" @click="send">Sumbit</v-btn>
-      </v-card-actions>
-    </v-card>
-    <br />
-    <v-alert
-      class="elevation-12 mx-auto"
-      outlined
-      type="success"
-      text
-      :value="alertSucces"
-      max-width="400"
-    >
-      Event has succesfully been created!
-    </v-alert>
-  </v-container>
+    <v-card-actions>
+      <v-btn color="primary" @click.stop="show=false">Close</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
 </template>
 
 <script>
 export default {
+  props: ['visible'],
+  computed: {
+    show: {
+      get () {
+        return this.visible
+      },
+      set (value) {
+        if (!value) {
+          this.$emit('close')
+        }
+      }
+    },
+    getNowDate() {
+      var nowDate = new Date();
+      return nowDate.toISOString().slice(0, 10);
+    },
+  },
   data: () => ({
-    ownerId: "",
+    eventId: this.$store.getters.eventId,
     eventName: "",
     nameRules: [
       (v) => !!v || "Name is required",
@@ -98,38 +101,7 @@ export default {
     eventDescription: "",
     dateStart: "",
     dateEnd: "",
-    state: "",
     selectedDate: null,
-    alertSucces: false,
   }),
-
-  methods: {
-    send: function () {
-      this.axios
-        .post("http://192.168.99.100:8089/event/", {
-          ownerId: this.$store.getters.userId,
-          eventName: this.eventName,
-          eventDescription: this.eventDescription,
-          dateStart: this.dateStart,
-          dateEnd: this.dateEnd,
-        })
-        .then((response) => {
-          console.log(response.status);
-          if (response.status !== 204) {
-            this.alertSucces = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    },
-  },
-
-  computed: {
-    getNowDate() {
-      var nowDate = new Date();
-      return nowDate.toISOString().slice(0, 10);
-    },
-  },
-};
+}
 </script>
