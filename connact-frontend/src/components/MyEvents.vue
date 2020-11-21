@@ -64,14 +64,13 @@ export default {
       return this.$store.dispatch("getMyEvents", this.$store.getters.userId);
     },
     setEventId(id) {
-      console.log(id)
       return this.$store.dispatch("setEventId", id);
     },
   },
   data: () => ({
     cards: [],
     expand: false,
-    showEditForm: false
+    showEditForm: false,
   }),
 };
 </script>

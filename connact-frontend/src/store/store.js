@@ -12,25 +12,25 @@ export default new Vuex.Store({
         eventId: ''
     },
     getters: {
-        events(state){
+        events(state) {
             return state.events
         },
-        userId(state){
+        userId(state) {
             return state.userid
         },
-        eventId(state){
+        eventId(state) {
             return state.eventId
         }
     },
     mutations: {
-        updateUserid (state, message) {
+        updateUserid(state, message) {
             state.userid = message
-            console.log(this.userid+'dsdsff')
+            console.log(this.userid + 'dsdsff')
         },
-        setEvents(state, events){
+        setEvents(state, events) {
             state.events = events;
         },
-        setEventId(state, id){
+        setEventId(state, id) {
             state.eventId = id;
         }
     },
@@ -45,8 +45,18 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
-        setEventId(context, id){
+        setEventId(context, id) {
             context.commit("setEventId", id)
+        },
+        editEvent(context, data) {
+            return axios
+                .put("http://192.168.99.100:8089/event/", {
+                    eventId: this.getters.eventId,
+                    eventName: data.eventName,
+                    eventDescription: data.eventDescription,
+                    dateStart: data.dateStart,
+                    dateEnd: data.dateEnd
+                })
         }
     },
 })
