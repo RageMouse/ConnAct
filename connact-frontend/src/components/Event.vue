@@ -29,62 +29,13 @@
               </div>
             </v-card-text>
             <v-card-actions>
-            
-            <v-dialog
-              v-model="dialog"
-              width="500"
-              :retain-focus="false"
 
+            <v-btn 
+              text
+              @click="openEventDetails(card)"
               >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn 
-                  v-bind="attrs"
-                  v-on="on"
-                  text
-                  @click="openEventDetails(card)"
-                  >
-                  Details
-                </v-btn>
-              </template>
-
-              <v-card
-                  class="mx-auto"
-                  max-width="500"
-                >
-                  <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                    height="200"
-                  ></v-img>
-
-                  <v-card-title>
-                    {{ eventName }}
-                  </v-card-title>
-
-                  <br/>
-
-                  <v-card-subtitle>
-                    {{ eventDesc }}
-                  </v-card-subtitle>
-
-                  <v-card-text>
-                    {{ eventStart }}
-                  </v-card-text>
-
-                  <v-card-text>
-                    {{ eventEnd }}
-                  </v-card-text>
-
-                  <v-btn
-                    color="orange lighten-2"
-                    text
-                    @click="dialog=false"
-                  >
-                    Join event
-                  </v-btn>
-
-                </v-card>
-
-            </v-dialog>
+              Details
+            </v-btn>
 
               <v-spacer></v-spacer>
 
@@ -104,6 +55,7 @@ export default {
   name: "#app",
   mounted() {
     this.loadEvents();
+    this.$store.commit('updateBtnText', "join")
   },
   methods: {
     loadEvents: function () {
@@ -111,23 +63,13 @@ export default {
         .get("http://192.168.178.20:8089/event/")
         .then((response) => (this.cards = response.data));
     },
-    passEvent: function(eventId){
-      this.selectedEvent = eventId
-    },
-    openEventDetails: function(event){
-      this.eventName = event.eventName
-      this.eventDesc = event.description
-      this.eventStart = event.dateStart
-      this.eventEnd = event.dateEnd
-    },
+    openEventDetails: function(eventDetails){
+      this.$store.commit('updateEventDetail', eventDetails)
+      this.$store.commit('updateEventDialog')
+    }
   },
   data: () => ({
     cards: [],
-    dialog: false,
-    eventName: "",
-    eventDesc: "",
-    eventStart: 0,
-    eventEnd: 0,
   }),
   computed: {
     activeCards: function(){

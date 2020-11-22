@@ -1,14 +1,12 @@
 <template>
-  <v-container>
-    <v-card class="elevation-12 mx-auto" max-width="1000px">
-      <v-toolbar dark color="primary">
-        <v-toolbar-title>Create Event</v-toolbar-title>
-      </v-toolbar>
+  <v-dialog v-model="show" max-width="500px">
+    <v-card>
+      <v-card-title>Edit Event</v-card-title>
       <v-card-text>
         <v-form ref="form" lazy-validation>
           <v-text-field
             id="eventName"
-            v-model="eventName"
+            v-model="form.eventName"
             :counter="25"
             :rules="nameRules"
             label="Name"
@@ -17,7 +15,7 @@
 
           <v-textarea
             id="eventDescription"
-            v-model="eventDescription"
+            v-model="form.eventDescription"
             :counter="255"
             :rules="[(v) => !!v || 'Description is required']"
             label="Description"
@@ -33,7 +31,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="dateStart"
+                v-model="form.dateStart"
                 label="Start Date for event"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -42,7 +40,7 @@
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="dateStart"
+              v-model="form.dateStart"
               :min="getNowDate"
             ></v-date-picker>
           </v-menu>
@@ -56,7 +54,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="dateEnd"
+                v-model="form.dateEnd"
                 label="End Date for event"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -64,71 +62,53 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="dateEnd" :min="dateStart"></v-date-picker>
+            <v-date-picker v-model="form.dateEnd" :min="form.dateStart"></v-date-picker>
           </v-menu>
         </v-form>
       </v-card-text>
-      <v-card-actions
-        ><v-btn id="validateButton" color="success" @click="send">Sumbit</v-btn>
+      <v-card-actions>
+        <v-btn color="primary" @click="editEvent">Update</v-btn>
+        <v-btn color="primary" @click.stop="show = false">Close</v-btn>
       </v-card-actions>
     </v-card>
-    <br />
-    <v-alert
-      class="elevation-12 mx-auto"
-      outlined
-      type="success"
-      text
-      :value="alertSucces"
-      max-width="400"
-    >
-      Event has succesfully been created!
-    </v-alert>
-  </v-container>
+  </v-dialog>
 </template>
 
 <script>
 export default {
+  props: ["visible"],
   data: () => ({
-    ownerId: "",
-    eventName: "",
+    form: {
+      eventId: "",
+      eventName: "",
+      eventDescription: "",
+      dateStart: "",
+      dateEnd: ""
+    },
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 25) || "Name must be less than 25 characters",
     ],
-    eventDescription: "",
-    dateStart: "",
-    dateEnd: "",
-    state: "",
-    selectedDate: null,
-    alertSucces: false,
   }),
-
-  methods: {
-    send: function () {
-      this.axios
-        .post("http://192.168.178.20:8089/event/", {
-          ownerId: this.$store.getters.userId,
-          eventName: this.eventName,
-          eventDescription: this.eventDescription,
-          dateStart: this.dateStart,
-          dateEnd: this.dateEnd,
-        })
-        .then((response) => {
-          console.log(response.status);
-          if (response.status !== 204) {
-            this.alertSucces = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    },
-  },
-
   computed: {
+    show: {
+      get() {
+        return this.visible;
+      },
+      set(value) {
+        if (!value) {
+          this.$emit("close");
+        }
+      },
+    },
     getNowDate() {
       var nowDate = new Date();
       return nowDate.toISOString().slice(0, 10);
+    },
+  },
+  methods: {
+    editEvent() {
+      return this.$store.dispatch("editEvent", this.form);
     },
   },
 };

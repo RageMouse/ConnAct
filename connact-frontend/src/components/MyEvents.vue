@@ -22,81 +22,41 @@
             <v-card-text>
               <div>
                 Date Start:
-                {{event.dateStart}}
-                <br/>
+                {{ event.dateStart }}
+                <br />
                 Date End:
-                {{event.dateEnd}}
-                
+                {{ event.dateEnd }}
               </div>
             </v-card-text>
             <v-card-actions>
               <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag=v"-btn"> -->
-              <v-btn text>Details</v-btn>
-              <!-- </router-link> -->
-
-              <v-spacer></v-spacer>
-
-              <v-dialog
-                  v-model="dialog"
-                  persistent
-                  max-width="500"
-                  :retain-focus="false"
+              <v-btn 
+                text
+                @click="openEventDetails(event)"
                 >
-                  <template
-                   v-slot:activator="{ on, attrs }"
-                  >
-                    <v-btn
-                      color="primary"
-                      dark
-                      v-bind="attrs"
-                      v-on="on"
-                      @click="passEvent(event.eventId)"
-                    >
-                      Close event
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title class="headline">
-                      Are you sure you want to close this event?
-                    </v-card-title>
-                    <v-card-text>This action cannot be undone.</v-card-text>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        text
-                        @click="dialog = false"
-                      >
-                        Cancel
-                      </v-btn>
-                      <v-btn
-                        color="primary"
-                        text
-                        @click="closeEvent(selectedEvent)"
-                      >
-                        Confirm
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-              </v-dialog>
+                Details
+              </v-btn>
+
+              <!-- </router-link> -->
+              <v-spacer></v-spacer>
+              <v-btn color="primary" @click="setEventId(event.eventId)" @click.stop="showEditForm=true">Edit</v-btn> 
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-    <v-alert 
-        style=""
-        type="success"
-        :value="alert"
-        max-width="1500"
-      >
-        Event has been closed.
-    </v-alert>
+      <EditEvent :visible="showEditForm" @close="showEditForm=false"/>
   </v-card>
 </template>
 
 <script>
+import EditEvent from '@/components/EditEvent.vue'
+ 
 export default {
   name: "myEvents",
+  components: {
+    EditEvent
+  },
   computed: {
     events() {
       return this.$store.getters.events;
@@ -104,48 +64,24 @@ export default {
   },
   mounted() {
     this.loadEvents();
-    console.log(this.$store.getters.userId)
-    this.dialog = false
-    this.hideAlert()
+    this.$store.commit('updateBtnText', "close")
   },
   methods: {
     loadEvents() {
       return this.$store.dispatch("getMyEvents", this.$store.getters.userId);
     },
-    closeEvent(eventId){
-      this.axios
-        .put("http://192.168.178.20:8089/event/"+ eventId)
-        .then((response) => {
-          console.log(response.status)
-          console.log("eventId: " + eventId)
-          if (response.status !== 204) {
-            this.alertSucces = true
-            this.dialog = false
-          }
-        })
-        .catch((error) => {
-          console.log(error.response);
-      });
+    openEventDetails(eventDetails){
+      this.$store.commit('updateEventDetail', eventDetails)
+      this.$store.commit('updateEventDialog')
     },
-    passEvent: function(eventId){
-      this.selectedEvent = eventId
-    },
-    alertTimer: function () {
-      window.setInterval(() => {
-        this.alert = false;
-      }, 3000)    
-    },
-    hideAlert: function(){
-      if(alert){
-        this.alertTimer();
-      }
+    setEventId(id) {
+      return this.$store.dispatch("setEventId", id);
     },
   },
   data: () => ({
     cards: [],
-    dialog: false,
-    selectedEvent: 0,
-    alert: false,
+    expand: false,
+    showEditForm: false,
   }),
 };
 </script>
