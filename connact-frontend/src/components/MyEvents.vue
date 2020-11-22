@@ -22,11 +22,10 @@
             <v-card-text>
               <div>
                 Date Start:
-                {{event.dateStart}}
-                <br/>
+                {{ event.dateStart }}
+                <br />
                 Date End:
-                {{event.dateEnd}}
-                
+                {{ event.dateEnd }}
               </div>
             </v-card-text>
             <v-card-actions>
@@ -39,20 +38,25 @@
               </v-btn>
 
               <!-- </router-link> -->
-
               <v-spacer></v-spacer>
-          
+              <v-btn color="primary" @click="setEventId(event.eventId)" @click.stop="showEditForm=true">Edit</v-btn> 
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
+      <EditEvent :visible="showEditForm" @close="showEditForm=false"/>
   </v-card>
 </template>
 
 <script>
+import EditEvent from '@/components/EditEvent.vue'
+ 
 export default {
   name: "myEvents",
+  components: {
+    EditEvent
+  },
   computed: {
     events() {
       return this.$store.getters.events;
@@ -60,7 +64,6 @@ export default {
   },
   mounted() {
     this.loadEvents();
-    console.log(this.$store.getters.userId)
     this.$store.commit('updateBtnText', "close")
   },
   methods: {
@@ -73,7 +76,12 @@ export default {
     },
   },
   data: () => ({
-    
+    setEventId(id) {
+      return this.$store.dispatch("setEventId", id);
+    },
+    cards: [],
+    expand: false,
+    showEditForm: false,
   }),
 };
 </script>

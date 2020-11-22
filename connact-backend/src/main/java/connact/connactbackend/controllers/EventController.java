@@ -2,6 +2,7 @@ package connact.connactbackend.controllers;
 
 import connact.connactbackend.entities.Event;
 import connact.connactbackend.models.EventCreateModel;
+import connact.connactbackend.models.EventEditModel;
 import connact.connactbackend.repositories.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,5 +43,18 @@ public class EventController {
     @GetMapping("/{userId}")
     public Iterable<Event> events(@PathVariable Long userId) {
         return eventRepo.findEventsByOwnerId(userId);
+    }
+
+    @PutMapping(path = "/")
+    public ResponseEntity<?> editEvent(@RequestBody EventEditModel eventEditModel){
+        Event event = eventRepo.getOne(eventEditModel.getEventId());
+
+        event.setEventName(eventEditModel.getEventName());
+        event.setDescription(eventEditModel.getEventDescription());
+        event.setDateStart(eventEditModel.getDateStart());
+        event.setDateEnd(eventEditModel.getDateEnd());
+
+        eventRepo.save(event);
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 }
