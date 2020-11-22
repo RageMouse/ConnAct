@@ -99,7 +99,7 @@ export default new Vuex.Store({
             },
         closeEvent(id){
             return axios
-                .put("http://192.168.178.20:8089/event/" + id)
+                .put("http://192.168.178.21:8089/event/" + id)
                 .then((response) => {
                     console.log(response.status)
                 })
