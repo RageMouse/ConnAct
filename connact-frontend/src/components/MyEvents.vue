@@ -74,11 +74,11 @@ export default {
       this.$store.commit('updateEventDetail', eventDetails)
       this.$store.commit('updateEventDialog')
     },
-  },
-  data: () => ({
     setEventId(id) {
       return this.$store.dispatch("setEventId", id);
     },
+  },
+  data: () => ({
     cards: [],
     expand: false,
     showEditForm: false,
