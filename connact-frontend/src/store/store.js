@@ -66,7 +66,7 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
-        closeEvent(id){
+        closeEvent(context,id){
             return axios
                 .put("http://192.168.178.20:8089/event/" + id)
                 .then((response) => {

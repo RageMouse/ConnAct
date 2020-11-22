@@ -76,17 +76,7 @@ export default {
       this.$store.commit('updateEventDialog')
     },
     closeEvent: function(){
-      this.axios
-        .put("http://192.168.178.20:8089/event/"+ this.getEvent.eventId)
-        .then((response) => {
-          console.log(response.status)
-          if (response.status !== 204) {
-            this.alert = true
-          }
-        })
-          .catch((error) => {
-          console.log(error.response);
-      });
+      this.$store.dispatch('closeEvent', this.getEvent.eventId)
     },
     joinEvent: function(){
       // join event here
