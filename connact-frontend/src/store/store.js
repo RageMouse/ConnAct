@@ -81,7 +81,7 @@ export default new Vuex.Store({
         },
         editEvent(context, data) {
             return axios
-                .put("http://192.168.99.100:8089/event/", {
+                .put("http://192.168.178.20:8089/event/", {
                     eventId: this.getters.eventId,
                     eventName: data.eventName,
                     eventDescription: data.eventDescription,
