@@ -58,23 +58,36 @@ export default {
     this.$store.commit('updateBtnText', "join")
   },
   methods: {
+
     loadEvents: function () {
       this.axios
-        .get("http://192.168.178.20:8089/event/")
+        .get("http://192.168.178.21:8089/event/")
         .then((response) => (this.cards = response.data));
     },
     openEventDetails: function(eventDetails){
+      this.ownerId=eventDetails.ownerId
+      this.$store.dispatch("loadRequests", eventDetails.eventId)
+      this.$store.dispatch("loadUsers", eventDetails.eventId)
       this.$store.commit('updateEventDetail', eventDetails)
       this.$store.commit('updateEventDialog')
     }
   },
   data: () => ({
     cards: [],
+    requests:[],
+    users:[],
+    alertSucces: false,
+    ownerId:0,
   }),
   computed: {
     activeCards: function(){
       return this.cards.filter(c => c.active==true)
     },
+    userid: {
+        get () {
+        return this.$store.state.userid
+          }
+        },
   }
 };
 </script>

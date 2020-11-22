@@ -39,10 +39,50 @@
             <v-btn v-if="getBtnText=='join'"
               color="primary"
               text
-              @click="joinEvent"
+              @click="join(getEvent.eventId)"
               >
               Join event
             </v-btn>
+            <div v-if="userid==getEvent.ownerId">
+             <ul id="requests">
+                 <li v-for="request in requests" :key="request.id">
+                   <v-btn
+                    color="orange lighten-2"
+                    text
+                    @click.native.prevent="acceptRequest(request.id)"
+                  >
+                    Accept
+                  </v-btn>
+                  <v-btn
+                    color="orange lighten-2"
+                    text
+                    @click.native.prevent="join(eventId)"
+                  >
+                    Decline
+                  </v-btn>
+                 {{ request.employee.userName }}
+                 </li>
+              </ul>
+             </div>
+            <div>
+             <ul id="users">
+                 <li v-for="user in users" :key="user.event.eventId">
+                 <v-card-text>
+                    {{ user.employee.userName }}
+                  </v-card-text>
+                 </li>
+              </ul>
+             </div>
+            <v-alert
+             class="elevation-12 mx-auto"
+             outlined
+             type="success"
+             text
+             :value="alertSucces"
+             max-width="1000px"
+            >
+              Request sent
+             </v-alert>
 
             <v-btn v-if="getBtnText=='close'"
               color="primary"
@@ -70,14 +110,49 @@
 export default {
   mounted() {
     this.hideAlert()
+
   },
   methods: {
+        acceptRequest: function (id) {
+      this.axios
+        .put(
+          "http://192.168.178.21:8089/event/accept",
+          {
+            id: id,
+            accepted: true,
+            
+          })
+          .then(response => {
+            console.log(response.status);
+          })
+          .catch(error => {
+            console.log(error.response)
+          })
+    },
+    join(eventid) {
+      this.axios
+        .post("http://192.168.178.21:8089/event/request", {
+          employeeId: this.$store.state.userid,
+          eventId: eventid,  
+          requesttype: "request",
+          accepted: false
+        })
+        .then((response) => {
+         
+          if (response.status !== 204) {
+            this.alertSucces = true;
+          }
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+      },
     closeDialog: function () {
       this.$store.commit('updateEventDialog')
     },
     closeEvent: function(){
       this.axios
-        .put("http://192.168.178.20:8089/event/"+ this.getEvent.eventId)
+        .put("http://192.168.178.21:8089/event/"+ this.getEvent.eventId)
         .then((response) => {
           console.log(response.status)
           if (response.status !== 204) {
@@ -87,9 +162,6 @@ export default {
           .catch((error) => {
           console.log(error.response);
       });
-    },
-    joinEvent: function(){
-      // join event here
     },
     alertTimer: function () {
       window.setInterval(() => {
@@ -104,6 +176,7 @@ export default {
   },
   data: () => ({
     alert: false,
+    alertSucces:false,
   }),
   computed: {
     getDialog: {
@@ -120,6 +193,17 @@ export default {
     getBtnText: function(){
       return this.$store.getters.btnText
     },
+    requests() {
+      return this.$store.getters.requests;
+    },
+    users(){
+      return this.$store.getters.users
+    },
+    userid: {
+        get () {
+        return this.$store.state.userid
+          }
+        },
   },
 }
 </script>
