@@ -8,7 +8,10 @@ export default new Vuex.Store({
     state: {
         userid: '1',
         user: null,
-        events: {}
+        events: {},
+        eventDetail: {},
+        eventDialog: false,
+        btnText: "",
     },
     getters: {
         events(state){
@@ -16,7 +19,16 @@ export default new Vuex.Store({
         },
         userId(state){
             return state.userid
-        }
+        },
+        eventDetail(state){
+            return state.eventDetail
+        },
+        eventDialog(state){
+            return state.eventDialog
+        },
+        btnText(state){
+            return state.btnText
+        },
     },
     mutations: {
         updateUserid (state, message) {
@@ -25,6 +37,15 @@ export default new Vuex.Store({
         },
         setEvents(state, events){
             state.events = events;
+        },
+        updateEventDetail(state, event){
+            state.eventDetail = event
+        },
+        updateEventDialog(state){
+            state.eventDialog = !state.eventDialog
+        },
+        updateBtnText(state, text){
+            state.btnText = text
         },
     },
     actions: {
@@ -37,6 +58,6 @@ export default new Vuex.Store({
                 .catch(error => {
                     throw new Error(error)
                 });
-        }
+        },
     },
 })
