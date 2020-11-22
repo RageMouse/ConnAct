@@ -34,6 +34,26 @@
                     <v-btn @click.native.prevent="send" type="submit">Login</v-btn>
                   </v-flex>
                 </v-layout>
+                <v-alert
+                  class="elevation-12 mx-auto"
+                  outlined
+                  type="warning"
+                  text
+                  :value="alertFail"
+                  max-width="1000px"
+              >
+                {{this.errormessage}}
+              </v-alert>
+              <v-alert
+                  class="elevation-12 mx-auto"
+                  outlined
+                  type="succes"
+                  text
+                  :value="alertSucces"
+                  max-width="1000px"
+              >
+                Logged in
+              </v-alert>
 
               </form>
             </v-container>
@@ -58,6 +78,9 @@ export default {
     return {
       username: '',
       password: '',
+      errormessage:'',
+      alertFail:false,
+      alertSucces:false,
     }
   },
 
@@ -67,7 +90,7 @@ export default {
     },
     send: function () {
       this.axios
-          .post("http://192.168.178.20:8089/employee/login", {
+          .post("http://192.168.178.21:8089/employee/login", {
             userName: this.username,
             password: this.password,
           })
@@ -82,6 +105,8 @@ export default {
             }
           })
           .catch((error) => {
+            this.errormessage = 'Wrong logindata'
+              this.alertFail = true;
             console.log(error.response);
           });
     },
