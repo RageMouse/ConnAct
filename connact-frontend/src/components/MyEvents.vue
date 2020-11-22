@@ -29,8 +29,14 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag="v-btn"> -->
-              <v-btn text>Details</v-btn>
+              <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag=v"-btn"> -->
+              <v-btn 
+                text
+                @click="openEventDetails(event)"
+                >
+                Details
+              </v-btn>
+
               <!-- </router-link> -->
               <v-spacer></v-spacer>
               <v-btn color="primary" @click="setEventId(event.eventId)" @click.stop="showEditForm=true">Edit</v-btn> 
@@ -45,7 +51,7 @@
 
 <script>
 import EditEvent from '@/components/EditEvent.vue'
-
+ 
 export default {
   name: "myEvents",
   components: {
@@ -58,10 +64,15 @@ export default {
   },
   mounted() {
     this.loadEvents();
+    this.$store.commit('updateBtnText', "close")
   },
   methods: {
     loadEvents() {
       return this.$store.dispatch("getMyEvents", this.$store.getters.userId);
+    },
+    openEventDetails(eventDetails){
+      this.$store.commit('updateEventDetail', eventDetails)
+      this.$store.commit('updateEventDialog')
     },
     setEventId(id) {
       return this.$store.dispatch("setEventId", id);

@@ -32,9 +32,17 @@ public class EventController {
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{eventId}")
+    public ResponseEntity<?> closeEvent(@PathVariable Long eventId){
+        Event event = eventRepo.getByEventId(eventId);
+        event.setActive(false);
+        eventRepo.save(event);
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
     @GetMapping("/{userId}")
-    public Iterable<Event> events(@PathVariable("userId") Long id) {
-        return eventRepo.findEventsByOwnerId(id);
+    public Iterable<Event> events(@PathVariable Long userId) {
+        return eventRepo.findEventsByOwnerId(userId);
     }
 
     @PutMapping(path = "/")

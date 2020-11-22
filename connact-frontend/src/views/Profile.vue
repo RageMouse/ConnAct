@@ -23,7 +23,7 @@ export default {
   },
   mounted(){
     this.axios
-      .get("http://192.168.99.100:8089/profile/")
+      .get("http://192.168.178.20:8089/profile/")
       .then((response) => {
           console.log(response.status);
           if (response.status == 200) {

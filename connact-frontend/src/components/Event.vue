@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row dense>
         <v-col
-          v-for="card in cards"
+          v-for="card in activeCards"
           :key="card.eventName"
           cols="12"
           md="4"
@@ -29,9 +29,13 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag="v-btn"> -->
-              <v-btn text>Details</v-btn>
-              <!-- </router-link> -->
+
+            <v-btn 
+              text
+              @click="openEventDetails(card)"
+              >
+              Details
+            </v-btn>
 
               <v-spacer></v-spacer>
 
@@ -51,16 +55,26 @@ export default {
   name: "#app",
   mounted() {
     this.loadEvents();
+    this.$store.commit('updateBtnText', "join")
   },
   methods: {
     loadEvents: function () {
       this.axios
-        .get("http://192.168.99.100:8089/event/")
+        .get("http://192.168.178.20:8089/event/")
         .then((response) => (this.cards = response.data));
     },
+    openEventDetails: function(eventDetails){
+      this.$store.commit('updateEventDetail', eventDetails)
+      this.$store.commit('updateEventDialog')
+    }
   },
   data: () => ({
     cards: [],
   }),
+  computed: {
+    activeCards: function(){
+      return this.cards.filter(c => c.active==true)
+    },
+  }
 };
 </script>

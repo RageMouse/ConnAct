@@ -9,6 +9,9 @@ export default new Vuex.Store({
         userid: '1',
         user: null,
         events: {},
+        eventDetail: {},
+        eventDialog: false,
+        btnText: "",
         eventId: ''
     },
     getters: {
@@ -17,6 +20,15 @@ export default new Vuex.Store({
         },
         userId(state) {
             return state.userid
+        },
+        eventDetail(state){
+            return state.eventDetail
+        },
+        eventDialog(state){
+            return state.eventDialog
+        },
+        btnText(state){
+            return state.btnText
         },
         eventId(state) {
             return state.eventId
@@ -30,6 +42,15 @@ export default new Vuex.Store({
         setEvents(state, events) {
             state.events = events;
         },
+        updateEventDetail(state, event){
+            state.eventDetail = event
+        },
+        updateEventDialog(state){
+            state.eventDialog = !state.eventDialog
+        },
+        updateBtnText(state, text){
+            state.btnText = text
+        },
         setEventId(state, id) {
             state.eventId = id;
         }
@@ -37,7 +58,7 @@ export default new Vuex.Store({
     actions: {
         getMyEvents(context, id) {
             return axios
-                .get("http://192.168.99.100:8089/event/" + id)
+                .get("http://192.168.178.20:8089/event/" + id)
                 .then((response) => {
                     context.commit("setEvents", response.data);
                 })

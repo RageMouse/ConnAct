@@ -81,10 +81,10 @@ export default {
   
   mounted() {
     this.axios
-      .get("http://192.168.99.100:8089/skill/")
+      .get("http://192.168.178.20:8089/skill/")
       .then((response) => (this.skills = response.data));
     this.axios
-      .get("http://192.168.99.100:8089/interest/")
+      .get("http://192.168.178.20:8089/interest/")
       .then((response) => (this.interests = response.data));
   },
 
@@ -92,7 +92,7 @@ export default {
     send: function () {
       this.axios
         .post(
-          "http://192.168.99.100:8089/profile/",
+          "http://192.168.178.20:8089/profile/",
           {
             displayName: this.displayName,
             education: this.education,

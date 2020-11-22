@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
+    Event getByEventId(Long eventId);
     List<Event> findEventsByOwnerId(@Param("employeeId")Long employeeId);
 }

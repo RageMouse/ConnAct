@@ -19,7 +19,7 @@ public class Event {
     private String description;
     private Date dateStart;
     private Date dateEnd;
-    private String state;
+    private boolean active;
     @OneToOne(mappedBy = "myEvent")
     private Employee employee;
 
@@ -33,5 +33,6 @@ public class Event {
         this.description = description;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
+        this.active = true;
     }
 }
