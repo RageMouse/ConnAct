@@ -59,5 +59,15 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
+        closeEvent(id){
+            return axios
+                .put("http://192.168.178.20:8089/event/" + id)
+                .then((response) => {
+                    console.log(response.status)
+                })
+                .catch((error) => {
+                console.log(error.response);
+            });
+        }
     },
 })
