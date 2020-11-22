@@ -96,6 +96,16 @@ export default new Vuex.Store({
               .then((response) => {
                   context.commit("setUsers",response.data)
               });
+            },
+        closeEvent(id){
+            return axios
+                .put("http://192.168.178.20:8089/event/" + id)
+                .then((response) => {
+                    console.log(response.status)
+                })
+                .catch((error) => {
+                console.log(error.response);
+            });
         },
         setEventId(context, id) {
             context.commit("setEventId", id)

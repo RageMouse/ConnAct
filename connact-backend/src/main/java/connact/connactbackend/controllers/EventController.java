@@ -1,9 +1,18 @@
 package connact.connactbackend.controllers;
 
+import connact.connactbackend.entities.Employee;
 import connact.connactbackend.entities.Event;
+import connact.connactbackend.entities.Request;
 import connact.connactbackend.models.EventCreateModel;
+
+import connact.connactbackend.models.RequestCreateModel;
+import connact.connactbackend.models.RequestEditModel;
+import connact.connactbackend.repositories.EmployeeRepo;
+
 import connact.connactbackend.models.EventEditModel;
+
 import connact.connactbackend.repositories.EventRepo;
+import connact.connactbackend.repositories.RequestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +25,10 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
     @Autowired
     private EventRepo eventRepo;
+    @Autowired
+    private EmployeeRepo employeeRepo;
+    @Autowired
+    private RequestRepo requestRepo;
 
     @GetMapping(path = "/" )
     public Iterable<Event> events() {
@@ -28,8 +41,13 @@ public class EventController {
             return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
         }
         Event event = new Event(eventCreateModel.getOwnerId(), eventCreateModel.getEventName(), eventCreateModel.getEventDescription(), eventCreateModel.getDateStart(), eventCreateModel.getDateEnd());
-        eventRepo.save(event);
+        event = eventRepo.save(event);
+        eventRepo.flush();
+        System.out.println(event.getEventId()+ " Adding owner to event");
+        Request request = new Request(employeeRepo.findById(eventCreateModel.getOwnerId()).get(), event,"request",true);
+        requestRepo.save(request);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
+
     }
 
     @PutMapping("/{eventId}")
@@ -38,6 +56,43 @@ public class EventController {
         event.setActive(false);
         eventRepo.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    @PostMapping("/request")
+    public ResponseEntity<?> createRequest(@RequestBody RequestCreateModel requestCreateModel) {
+        if (requestCreateModel.getEmployeeId()==null || requestCreateModel.getEventId()==null ||
+                requestCreateModel.getAccepted()==null || requestCreateModel.getRequesttype()==null){
+            return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
+        }
+
+        Event event = eventRepo.findById(requestCreateModel.getEventId()).get();
+        Employee employee = employeeRepo.findById(requestCreateModel.getEmployeeId()).get();
+        System.out.println(employee.getEmployeeId() + "        IDS     "+ event.getEventId());
+
+        Request request = new Request(employee, event,requestCreateModel.getRequesttype(),requestCreateModel.getAccepted());
+        requestRepo.save(request);
+        return new ResponseEntity<>(request, HttpStatus.CREATED);
+    }
+
+    @GetMapping(path ="/requests/{id}")
+    public Iterable<Request> requestsUser(@PathVariable Long id) {
+        System.out.println("Haalt alle unaccepted requests op van de owner bij een specifiek event  "+id.toString());
+        return requestRepo.findAllByEventAndAcceptedAndRequesttype(eventRepo.findById(id).get(),false,"request");
+    }
+    @GetMapping(path ="/users/{id}")
+    public Iterable<Request> requestsAcceptedUsers(@PathVariable Long id) {
+        System.out.println("Haalt alle accepted requests op van de owner bij een specifiek event  "+id.toString());
+        return requestRepo.findAllByEventAndAccepted(eventRepo.findById(id).get(),true);
+    }
+    @PutMapping(path = "/accept")
+    public ResponseEntity<?> acceptRequest(@RequestBody RequestEditModel requestEditModel){
+        System.out.println("Request accepting started");
+        Request request = requestRepo.findById(requestEditModel.getId()).get();
+        System.out.println("Found request");
+        request.setAccepted(requestEditModel.getAccepted());
+
+        requestRepo.save(request);
+        return new ResponseEntity<>(request, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
