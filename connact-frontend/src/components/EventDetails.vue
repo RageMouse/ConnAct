@@ -74,7 +74,7 @@
               </ul>
              </div>
             <v-alert
-             class="elevation-12 mx-auto"
+            class="elevation-12 mx-auto"
              outlined
              type="success"
              text
@@ -101,7 +101,6 @@
               >
               Event has been closed
             </v-alert>
-
         </v-card>
     </v-dialog>
 </template>
@@ -110,30 +109,19 @@
 export default {
   mounted() {
     this.hideAlert()
-
   },
   methods: {
-        acceptRequest: function (id) {
-      this.axios
-        .put(
-          "http://192.168.178.21:8089/event/accept",
-          {
-            id: id,
-            accepted: true,
-            
-          })
-          .then(response => {
-            console.log(response.status);
-          })
-          .catch(error => {
-            console.log(error.response)
-          })
+    closeDialog: function () {
+      this.$store.commit('updateEventDialog')
     },
-    join(eventid) {
-      this.axios
+    closeEvent: function(){
+      this.$store.dispatch('closeEvent', this.getEvent)
+    },
+    joinEvent: function(){
+       this.axios
         .post("http://192.168.178.21:8089/event/request", {
           employeeId: this.$store.state.userid,
-          eventId: eventid,  
+          eventId: this.getEvent.eventId,  
           requesttype: "request",
           accepted: false
         })
@@ -146,22 +134,6 @@ export default {
         .catch((error) => {
           console.log(error.response);
         });
-      },
-    closeDialog: function () {
-      this.$store.commit('updateEventDialog')
-    },
-    closeEvent: function(){
-      this.axios
-        .put("http://192.168.178.21:8089/event/"+ this.getEvent.eventId)
-        .then((response) => {
-          console.log(response.status)
-          if (response.status !== 204) {
-            this.alert = true
-          }
-        })
-          .catch((error) => {
-          console.log(error.response);
-      });
     },
     alertTimer: function () {
       window.setInterval(() => {
@@ -176,7 +148,6 @@ export default {
   },
   data: () => ({
     alert: false,
-    alertSucces:false,
   }),
   computed: {
     getDialog: {
@@ -193,17 +164,14 @@ export default {
     getBtnText: function(){
       return this.$store.getters.btnText
     },
-    requests() {
-      return this.$store.getters.requests;
-    },
     users(){
       return this.$store.getters.users
     },
     userid: {
-        get () {
+      get () {
         return this.$store.state.userid
-          }
-        },
+      }
+    },
   },
 }
 </script>

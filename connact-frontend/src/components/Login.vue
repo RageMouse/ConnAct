@@ -90,7 +90,7 @@ export default {
     },
     send: function () {
       this.axios
-          .post("http://192.168.178.21:8089/employee/login", {
+          .post("http://192.168.178.20:8089/employee/login", {
             userName: this.username,
             password: this.password,
           })

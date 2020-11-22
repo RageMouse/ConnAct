@@ -75,7 +75,7 @@ export default new Vuex.Store({
     actions: {
         getMyEvents(context, id) {
             return axios
-                .get("http://192.168.178.21:8089/event/" + id)
+                .get("http://192.168.178.20:8089/event/" + id)
                 .then((response) => {
                     context.commit("setEvents", response.data);
                 })
@@ -85,21 +85,21 @@ export default new Vuex.Store({
         },
         loadRequests(context,eventid) {
             return axios
-              .get("http://192.168.178.21:8089/event/requests/"+eventid)
+              .get("http://192.168.178.20:8089/event/requests/"+eventid)
               .then((response) => {
                   context.commit("setRequests",response.data)
               });
         },
         loadUsers(context,eventid) {
             return axios
-            .get("http://192.168.178.21:8089/event/users/"+eventid)
+            .get("http://192.168.178.20:8089/event/users/"+eventid)
               .then((response) => {
                   context.commit("setUsers",response.data)
               });
             },
         closeEvent(id){
             return axios
-                .put("http://192.168.178.21:8089/event/" + id)
+                .put("http://192.168.178.20:8089/event/" + id)
                 .then((response) => {
                     console.log(response.status)
                 })
@@ -112,7 +112,7 @@ export default new Vuex.Store({
         },
         editEvent(context, data) {
             return axios
-                .put("http://192.168.178.21:8089/event/", {
+                .put("http://192.168.178.20:8089/event/", {
                     eventId: this.getters.eventId,
                     eventName: data.eventName,
                     eventDescription: data.eventDescription,
