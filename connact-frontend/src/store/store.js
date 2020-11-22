@@ -66,12 +66,22 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
+        closeEvent(context,id){
+            return axios
+                .put("http://192.168.178.20:8089/event/" + id)
+                .then((response) => {
+                    console.log(response.status)
+                })
+                .catch((error) => {
+                console.log(error.response);
+            });
+        },
         setEventId(context, id) {
             context.commit("setEventId", id)
         },
         editEvent(context, data) {
             return axios
-                .put("http://192.168.99.100:8089/event/", {
+                .put("http://192.168.178.20:8089/event/", {
                     eventId: this.getters.eventId,
                     eventName: data.eventName,
                     eventDescription: data.eventDescription,

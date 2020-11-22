@@ -47,7 +47,8 @@ public class EmployeeController {
         else{
             //wachtwoord klopt
             System.out.println("WACHTWOORD KLOPT NIET");
-            return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.badRequest()
+                    .body("Wrong password");
         }
     }
 
