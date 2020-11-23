@@ -1,5 +1,6 @@
 package connact.connactbackend.controllers;
 
+import connact.connactbackend.entities.Event;
 import connact.connactbackend.entities.Interest;
 import connact.connactbackend.entities.Profile;
 import connact.connactbackend.entities.Skill;
@@ -51,7 +52,7 @@ public class ProfileController {
         List<Skill> skills = profileModel.getSkills();
         List<Interest> interests = profileModel.getInterests();
 
-        Profile p = profileRepo.getOne(profileModel.getProfileId());
+        Profile p = profileRepo.getByProfileId(profileModel.getProfileId());
         p.setDisplayName(profileModel.getDisplayName());
         p.setEducation(profileModel.getEducation());
         p.setSkills(skills);

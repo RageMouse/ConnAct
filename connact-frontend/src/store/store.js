@@ -12,7 +12,10 @@ export default new Vuex.Store({
         eventDetail: {},
         eventDialog: false,
         btnText: "",
-        eventId: ''
+        eventId: '',
+        skills: [],
+        interests: [],
+        profile: {},
     },
     getters: {
         events(state) {
@@ -21,18 +24,27 @@ export default new Vuex.Store({
         userId(state) {
             return state.userid
         },
-        eventDetail(state){
+        eventDetail(state) {
             return state.eventDetail
         },
-        eventDialog(state){
+        eventDialog(state) {
             return state.eventDialog
         },
-        btnText(state){
+        btnText(state) {
             return state.btnText
         },
         eventId(state) {
             return state.eventId
-        }
+        },
+        skills(state) {
+            return state.skills
+        },
+        interests(state) {
+            return state.interests
+        },
+        profile(state) {
+            return state.profile
+        },
     },
     mutations: {
         updateUserid(state, message) {
@@ -42,17 +54,26 @@ export default new Vuex.Store({
         setEvents(state, events) {
             state.events = events;
         },
-        updateEventDetail(state, event){
+        updateEventDetail(state, event) {
             state.eventDetail = event
         },
-        updateEventDialog(state){
+        updateEventDialog(state) {
             state.eventDialog = !state.eventDialog
         },
-        updateBtnText(state, text){
+        updateBtnText(state, text) {
             state.btnText = text
         },
         setEventId(state, id) {
             state.eventId = id;
+        },
+        updateSkills(state, skills) {
+            state.skills = skills
+        },
+        updateInterests(state, interests) {
+            state.interests = interests
+        },
+        updateProfile(state, editProfileModel) {
+            state.profile = editProfileModel
         }
     },
     actions: {
@@ -66,15 +87,15 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
-        closeEvent(context,id){
+        closeEvent(context, id) {
             return axios
                 .put("http://192.168.178.20:8089/event/" + id)
                 .then((response) => {
                     console.log(response.status)
                 })
                 .catch((error) => {
-                console.log(error.response);
-            });
+                    console.log(error.response);
+                });
         },
         setEventId(context, id) {
             context.commit("setEventId", id)
@@ -88,6 +109,60 @@ export default new Vuex.Store({
                     dateStart: data.dateStart,
                     dateEnd: data.dateEnd
                 })
+        },
+        loadSkills(context) {
+            return axios
+                .get("http://192.168.178.20:8089/skill/")
+                .then((response) => {
+                    context.commit('updateSkills', response.data)
+                });
+        },
+        loadInterests(context) {
+            return axios
+                .get("http://192.168.178.20:8089/interest/")
+                .then((response) => {
+                    context.commit('updateInterests', response.data)
+                });
+        },
+        createProfile(context, createProfileModel) {
+            return axios
+                .post("http://192.168.178.20:8089/profile/", {
+                    displayName: createProfileModel.displayName,
+                    education: createProfileModel.education,
+                    skills: createProfileModel.skills,
+                    interests: createProfileModel.interests,
+                })
+                .then((response) => {
+                    console.log(response.status);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+        loadProfile(context) { // later met userId
+            return axios
+                .get("http://192.168.178.20:8089/profile/")
+                .then((response) => {
+                    context.commit('updateProfile', response.data)
+                })
+        },
+        editProfile(context, editProfileModel) {
+            return axios
+                .put("http://192.168.178.20:8089/profile/", {
+                    profileId: editProfileModel.profileId,
+                    displayName: editProfileModel.displayName,
+                    education: editProfileModel.education,
+                    skills: editProfileModel.skills,
+                    interests: editProfileModel.interests,
+                })
+                .then((response) => {
+                    context.commit('updateProfile', response.data)
+                    console.log(response.status);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
         }
+
     },
 })

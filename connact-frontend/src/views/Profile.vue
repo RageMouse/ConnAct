@@ -4,7 +4,7 @@
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">My Profile Page</h1>
         <CreateProfile v-if="showProfileForm"/>
-        <MyProfile v-if="showProfile"/>
+        <MyProfile/>
       </v-col>
     </v-row>
   </v-container>
@@ -22,25 +22,18 @@ export default {
     MyProfile
   },
   mounted(){
-    this.axios
-      .get("http://192.168.178.20:8089/profile/")
-      .then((response) => {
-          console.log(response.status);
-          if (response.status == 200) {
-            this.showProfile = true
-            this.showProfileForm = false
-          }
-        }
-      );
+    this.$store.dispatch('loadSkills')
+    this.$store.dispatch('loadInterests')
+    this.$store.dispatch("loadProfile");
   },
   data: () => ({
      showProfile: false,
      showProfileForm: true,
   }),
   methods: {
-    hideForm(){
-      this.showProfile = true
-      this.showProfileForm = false
+    toggleForms(){
+      this.showProfile = !this.showProfile
+      this.showProfileForm = !this.showProfileForm
     },
   }
 }
