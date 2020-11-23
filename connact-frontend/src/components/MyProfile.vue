@@ -61,7 +61,7 @@
                 <v-text-field
                   id="displayName"
                   :counter="25"
-                  v-model="editedDisplayName"
+                  v-model="form.editedDisplayName"
                   label="Name"
                   required
                   :placeholder="getProfile.displayName"
@@ -70,14 +70,14 @@
                 <v-text-field
                   id="education"
                   :counter="25"
-                  v-model="editedEducation"
+                  v-model="form.editedEducation"
                   label="Education"
                   required
                   :placeholder="getProfile.education"
                 ></v-text-field>
 
                 <v-select
-                  v-model="editedSkills"
+                  v-model="form.editedSkills"
                   :items="getSkills.map((s) => s.name)"
                   attach
                   chips
@@ -87,7 +87,7 @@
                 />
 
                 <v-select
-                  v-model="editedInterests"
+                  v-model="form.editedInterests"
                   :items="getInterests.map((i) => i.name)"
                   attach
                   chips
@@ -109,25 +109,21 @@
 
 <script>
 export default {
-  data: () => ({
-    editProfileModel: {},
-    profileId: 0,
-    editedDisplayName: "",
-    editedEducation: "",
-    editedSkills: [],
-    editedInterests: [],
+  data: () => ({  
+    form: {
+      profileId: 0,
+      editedDisplayName: "",
+      editedEducation: "",
+      editedSkills: [],
+      editedInterests: [],
+    },
     show: false,
   }),
 
   methods: {
     editProfile: function () {
-      this.editProfileModel.profileId = this.getProfile.profileId
-      this.editProfileModel.displayName = this.editedDisplayName
-      this.editProfileModel.education = this.editedEducation
-      this.editProfileModel.skills = this.editedSkills
-      this.editProfileModel.interests = this.editedInterests
-
-      this.$store.dispatch('editProfile', this.editProfileModel)
+      this.form.profileId = this.getProfile.profileId
+      this.$store.dispatch('editProfile', this.form)
     },
   },
   mounted() {

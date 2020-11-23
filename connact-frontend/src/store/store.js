@@ -124,13 +124,13 @@ export default new Vuex.Store({
                     context.commit('updateInterests', response.data)
                 });
         },
-        createProfile(context, createProfileModel) {
+        createProfile(context, profileCreateForm) {
             return axios
                 .post("http://192.168.178.20:8089/profile/", {
-                    displayName: createProfileModel.displayName,
-                    education: createProfileModel.education,
-                    skills: createProfileModel.skills,
-                    interests: createProfileModel.interests,
+                    displayName: profileCreateForm.displayName,
+                    education: profileCreateForm.education,
+                    skills: profileCreateForm.skills,
+                    interests: profileCreateForm.interests,
                 })
                 .then((response) => {
                     console.log(response.status);
@@ -146,14 +146,14 @@ export default new Vuex.Store({
                     context.commit('updateProfile', response.data)
                 })
         },
-        editProfile(context, editProfileModel) {
+        editProfile(context, profileEditForm) {
             return axios
                 .put("http://192.168.178.20:8089/profile/", {
-                    profileId: editProfileModel.profileId,
-                    displayName: editProfileModel.displayName,
-                    education: editProfileModel.education,
-                    skills: editProfileModel.skills,
-                    interests: editProfileModel.interests,
+                    profileId: profileEditForm.profileId,
+                    displayName: profileEditForm.editedDisplayName,
+                    education: profileEditForm.editedEducation,
+                    skills: profileEditForm.editedSkills,
+                    interests: profileEditForm.editedInterests,
                 })
                 .then((response) => {
                     context.commit('updateProfile', response.data)

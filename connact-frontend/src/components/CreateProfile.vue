@@ -8,7 +8,7 @@
         <v-form ref="form" lazy-validation>
           <v-text-field
             id="displayName"
-            v-model="displayName"
+            v-model="form.displayName"
             :counter="25"
             :rules="nameRules"
             label="Name"
@@ -17,7 +17,7 @@
 
           <v-text-field
             id="education"
-            v-model="education"
+            v-model="form.education"
             :counter="25"
             :rules="nameRules"
             label="Education"
@@ -25,7 +25,7 @@
           ></v-text-field>
 
           <v-select
-            v-model="selectedSkills"
+            v-model="form.selectedSkills"
             :items="getSkills.map((skill) => skill.name)"
             attach
             chips
@@ -34,7 +34,7 @@
           />
 
           <v-select
-            v-model="selectedInterests"
+            v-model="form.selectedInterests"
             :items="getInterests.map((interest) => interest.name)"
             attach
             chips
@@ -49,31 +49,20 @@
         >
       </v-card-actions>
     </v-card>
-    <br />
-    <v-alert
-      class="elevation-12 mx-auto"
-      outlined
-      type="success"
-      text
-      :value="alertSucces"
-      max-width="1000px"
-      style="width: 400px"
-    >
-      Profile has succesfully been created!
-    </v-alert>
   </v-container>
 </template>
 
 <script>
 export default {
   data: () => ({
-    displayName: "",
-    education: "",
-    skills: [],
-    selectedSkills: [],
-    interests: [],
-    selectedInterests: [],
-    alertSucces: false,
+    form:{
+      displayName: "",
+      education: "",
+      skills: [],
+      selectedSkills: [],
+      interests: [],
+      selectedInterests: [],
+    },
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 25) || "Name must be less than 25 characters",
@@ -86,12 +75,7 @@ export default {
   },
   methods: {
     create: function () {
-      this.createProfileModel.displayName = this.displayName
-      this.createProfileModel.education = this.education
-      this.createProfileModel.skills = this.selectedSkills
-      this.createProfileModel.interests = this.selectedInterests
-      
-      this.$store.dispatch("createProfile", this.createProfileModel)
+      this.$store.dispatch("createProfile", this.form)
     },
   },
   computed: {
