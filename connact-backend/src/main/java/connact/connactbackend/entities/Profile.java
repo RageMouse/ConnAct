@@ -45,8 +45,8 @@ public class Profile {
     public Profile(String displayName, String education, Employee employee, List<Skill> skills, List<Interest> interests) {
         this.displayName = displayName;
         this.education = education;
-        this.employee = employee;
         this.skills = skills;
         this.interests = interests;
+        this.employee = employee;
     }
 }

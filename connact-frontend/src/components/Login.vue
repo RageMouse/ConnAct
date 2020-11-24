@@ -74,6 +74,7 @@ export default {
           .then((response) => {
             this.username = response.data.userName
             this.$store.commit('updateUserid', response.data.employeeId)
+            this.$store.dispatch('getUserById', this.$store.getters.userId)
             console.log(response.status + 'statussss');
             console.log(response.data.lolname + 'ID');
 

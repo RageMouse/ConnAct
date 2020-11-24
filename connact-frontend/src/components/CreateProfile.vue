@@ -25,7 +25,7 @@
           ></v-text-field>
 
           <v-select
-            v-model="form.selectedSkills"
+            v-model="form.skills"
             :items="getSkills.map((skill) => skill.name)"
             attach
             chips
@@ -34,7 +34,7 @@
           />
 
           <v-select
-            v-model="form.selectedInterests"
+            v-model="form.interests"
             :items="getInterests.map((interest) => interest.name)"
             attach
             chips
@@ -59,15 +59,13 @@ export default {
       displayName: "",
       education: "",
       skills: [],
-      selectedSkills: [],
       interests: [],
-      selectedInterests: [],
+      user: {}
     },
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 25) || "Name must be less than 25 characters",
     ],
-    createProfileModel: {},
   }),
 
   mounted() {
@@ -75,6 +73,7 @@ export default {
   },
   methods: {
     create: function () {
+      this.form.user = this.$store.getters.user
       this.$store.dispatch("createProfile", this.form)
     },
   },

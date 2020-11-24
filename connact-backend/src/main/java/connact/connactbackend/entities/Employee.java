@@ -37,4 +37,9 @@ public class Employee {
         this.password = password;
         this.salt = salt;
     }
+
+    public Employee(Long employeeId, Profile profile) {
+        this.employeeId = employeeId;
+        this.profile = profile;
+    }
 }

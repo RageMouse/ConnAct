@@ -128,6 +128,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("loadProfile");
+    console.log(this.$store.getters.user)
   },
 
   computed: {

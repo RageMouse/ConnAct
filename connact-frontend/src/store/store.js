@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         userid: '1',
-        user: null,
+        user: {},
         events: {},
         eventDetail: {},
         eventDialog: false,
@@ -20,6 +20,9 @@ export default new Vuex.Store({
     getters: {
         events(state) {
             return state.events
+        },
+        user(state){
+            return state.user
         },
         userId(state) {
             return state.userid
@@ -50,6 +53,9 @@ export default new Vuex.Store({
         updateUserid(state, message) {
             state.userid = message
             console.log(this.userid + 'dsdsff')
+        },
+        updateUser(state, user){
+            state.user = user
         },
         setEvents(state, events) {
             state.events = events;
@@ -125,12 +131,14 @@ export default new Vuex.Store({
                 });
         },
         createProfile(context, profileCreateForm) {
+            console.log(profileCreateForm)
             return axios
                 .post("http://192.168.178.20:8089/profile/", {
                     displayName: profileCreateForm.displayName,
                     education: profileCreateForm.education,
                     skills: profileCreateForm.skills,
                     interests: profileCreateForm.interests,
+                    // employee: profileCreateForm.user,
                 })
                 .then((response) => {
                     console.log(response.status);
@@ -162,7 +170,14 @@ export default new Vuex.Store({
                 .catch((error) => {
                     console.log(error.response);
                 });
-        }
+        },
+        getUserById(context, id){
+            return axios
+                .get("http://192.168.178.20:8089/employee/" + id)
+                .then((response) => {
+                    context.commit('updateUser', response.data)
+                })
+        },
 
     },
 })

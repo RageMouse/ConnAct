@@ -1,9 +1,6 @@
 package connact.connactbackend.controllers;
 
-import connact.connactbackend.entities.Event;
-import connact.connactbackend.entities.Interest;
-import connact.connactbackend.entities.Profile;
-import connact.connactbackend.entities.Skill;
+import connact.connactbackend.entities.*;
 import connact.connactbackend.models.ProfileCreateModel;
 import connact.connactbackend.models.ProfileEditModel;
 import connact.connactbackend.repositories.ProfileRepo;
@@ -24,8 +21,8 @@ public class ProfileController {
     private ProfileRepo profileRepo;
 
     @GetMapping(path = "/" )
-    public Profile profiles() {
-        return profileRepo.findAll().get(0);
+    public Iterable<Profile> profiles() {
+        return profileRepo.findAll();
     }
 
     @GetMapping(path = "/{id}" )
@@ -35,14 +32,16 @@ public class ProfileController {
 
     @PostMapping("/")
     public ResponseEntity<?> createProfile(@RequestBody ProfileCreateModel profileModel) {
+        System.out.println(profileModel);
         if (profileModel.getDisplayName()==null || profileModel.getEducation()==null ||
                 profileModel.getSkills()==null || profileModel.getInterests()==null){
             return new ResponseEntity<Error>(HttpStatus.NO_CONTENT);
         }
         List<Skill> skills = profileModel.getSkills();
         List<Interest> interests = profileModel.getInterests();
+        Employee employee = new Employee(profileModel.getEmployee().getEmployeeId(), profileModel.getEmployee().getProfile());
 
-        Profile profile = new Profile(profileModel.getDisplayName(), profileModel.getEducation(), skills, interests);
+        Profile profile = new Profile(profileModel.getDisplayName(), profileModel.getEducation(), employee, skills, interests);
         profileRepo.save(profile);
         return new ResponseEntity<>(profile, HttpStatus.CREATED);
     }
