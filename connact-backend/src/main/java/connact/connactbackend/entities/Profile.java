@@ -1,5 +1,6 @@
 package connact.connactbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
@@ -14,7 +15,9 @@ public class Profile {
     private Long profileId;
     private String displayName;
     private String education;
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinColumn(name = "employeeId")
+    @JsonManagedReference
     private Employee employee;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "profile_skills",
@@ -45,8 +48,8 @@ public class Profile {
     public Profile(String displayName, String education, Employee employee, List<Skill> skills, List<Interest> interests) {
         this.displayName = displayName;
         this.education = education;
+        this.employee = employee;
         this.skills = skills;
         this.interests = interests;
-        this.employee = employee;
     }
 }

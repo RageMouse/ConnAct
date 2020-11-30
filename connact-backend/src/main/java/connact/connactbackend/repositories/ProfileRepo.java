@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface ProfileRepo extends JpaRepository<Profile, Long> {
     Profile getByProfileId(Long eventId);
+    Profile findByEmployee_employeeId(Long employeeId);
 }
