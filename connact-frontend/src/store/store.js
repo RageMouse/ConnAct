@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        userid: '1',
+        userid: '0',
         user: {},
         events: {},
         eventDetail: {},
@@ -78,9 +78,9 @@ export default new Vuex.Store({
         updateInterests(state, interests) {
             state.interests = interests
         },
-        updateProfile(state, editProfileModel) {
-            state.profile = editProfileModel
-        }
+        updateProfile(state, profileModel) {
+            state.profile = profileModel
+        },
     },
     actions: {
         getMyEvents(context, id) {
@@ -131,25 +131,25 @@ export default new Vuex.Store({
                 });
         },
         createProfile(context, profileCreateForm) {
-            console.log(profileCreateForm)
             return axios
                 .post("http://192.168.178.20:8089/profile/", {
                     displayName: profileCreateForm.displayName,
                     education: profileCreateForm.education,
                     skills: profileCreateForm.skills,
                     interests: profileCreateForm.interests,
-                    // employee: profileCreateForm.user,
+                    employeeId: profileCreateForm.userId,
                 })
                 .then((response) => {
+                    context.commit('updateProfile', response.data)
                     console.log(response.status);
                 })
                 .catch((error) => {
                     console.log(error.response);
                 });
         },
-        loadProfile(context) { // later met userId
+        loadProfile(context, employeeId) {
             return axios
-                .get("http://192.168.178.20:8089/profile/")
+                .get("http://192.168.178.20:8089/profile/" + employeeId)
                 .then((response) => {
                     context.commit('updateProfile', response.data)
                 })

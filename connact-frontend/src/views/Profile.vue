@@ -3,7 +3,7 @@
     <v-row class="text-center">
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">My Profile Page</h1>
-        <CreateProfile v-if="showProfileForm"/>
+        <CreateProfile v-if="showCreateProfile"/>
         <MyProfile/>
       </v-col>
     </v-row>
@@ -24,17 +24,17 @@ export default {
   mounted(){
     this.$store.dispatch('loadSkills')
     this.$store.dispatch('loadInterests')
-    this.$store.dispatch("loadProfile");
   },
   data: () => ({
-     showProfile: false,
-     showProfileForm: true,
+     showCreateProfile: true,
   }),
   methods: {
-    toggleForms(){
-      this.showProfile = !this.showProfile
-      this.showProfileForm = !this.showProfileForm
+    closeCreateProfile(){
+      this.showCreateProfile = false
     },
+  },
+  computed: {
+
   }
 }
 </script>

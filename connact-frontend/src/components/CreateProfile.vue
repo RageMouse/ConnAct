@@ -60,7 +60,7 @@ export default {
       education: "",
       skills: [],
       interests: [],
-      user: {}
+      userId: 0,
     },
     nameRules: [
       (v) => !!v || "Name is required",
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     create: function () {
-      this.form.user = this.$store.getters.user
+      this.form.userId = this.$store.getters.userId
       this.$store.dispatch("createProfile", this.form)
     },
   },
