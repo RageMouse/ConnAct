@@ -30,7 +30,8 @@
             </v-card-text>
             <v-card-actions>
 
-            <v-btn 
+            <v-btn
+              id="detailsButton" 
               text
               @click="openEventDetails(card)"
               >
@@ -62,6 +63,7 @@ export default {
       this.axios
         .get("http://192.168.99.100:8089/event/")
         .then((response) => (this.cards = response.data));
+        console.log(this.cards)
     },
     openEventDetails: function(eventDetails){
       this.$store.commit('updateEventDetail', eventDetails)
@@ -72,7 +74,7 @@ export default {
     cards: [],
   }),
   computed: {
-    activeCards: function(){
+    activeCards: function(){  
       return this.cards.filter(c => c.active==true)
     },
   }
