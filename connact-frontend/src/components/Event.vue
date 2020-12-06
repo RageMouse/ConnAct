@@ -4,7 +4,7 @@
       <v-row dense>
         <v-col
           v-for="card in activeCards"
-          :key="card.eventName"
+          :key="card.eventId"
           cols="12"
           md="4"
           sm="3"
@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: "#app",
+  name: "allEvents",
   mounted() {
     this.loadEvents();
     this.$store.commit('updateBtnText', "join")

@@ -102,7 +102,7 @@ public class EventController {
 
     @PutMapping(path = "/")
     public ResponseEntity<?> editEvent(@RequestBody EventEditModel eventEditModel){
-        Event event = eventRepo.getOne(eventEditModel.getEventId());
+        Event event = eventRepo.getByEventId(eventEditModel.getEventId());
 
         event.setEventName(eventEditModel.getEventName());
         event.setDescription(eventEditModel.getEventDescription());
@@ -111,5 +111,11 @@ public class EventController {
 
         eventRepo.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{eventId}")
+    public void deleteEvent(@PathVariable Long eventId){
+        Event event = eventRepo.getByEventId(eventId);
+        eventRepo.delete(event);
     }
 }
