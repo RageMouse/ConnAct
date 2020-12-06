@@ -106,7 +106,7 @@ export default {
   methods: {
     send: function () {
       this.axios
-        .post("http://192.168.178.20:8089/event/", {
+        .post("http://192.168.99.100:8089/event/", {
           ownerId: this.$store.getters.userId,
           eventName: this.eventName,
           eventDescription: this.eventDescription,

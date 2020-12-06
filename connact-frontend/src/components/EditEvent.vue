@@ -69,6 +69,8 @@
       <v-card-actions>
         <v-btn color="primary" @click="editEvent">Update</v-btn>
         <v-btn color="primary" @click.stop="show = false">Close</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="error" @click="deleteEvent" @click.stop="show = false">Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -110,6 +112,10 @@ export default {
     editEvent() {
       return this.$store.dispatch("editEvent", this.form);
     },
+    deleteEvent() {
+      console.log(this.$store.state.eventId)
+      return this.$store.dispatch("deleteEvent", this.$store.state.eventId)
+    }
   },
 };
 </script>

@@ -4,7 +4,7 @@
       <v-row dense>
         <v-col
           v-for="card in activeCards"
-          :key="card.eventName"
+          :key="card.eventId"
           cols="12"
           md="4"
           sm="3"
@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  name: "#app",
+  name: "allEvents",
   mounted() {
     this.loadEvents();
     this.$store.commit('updateBtnText', "join")
@@ -60,7 +60,7 @@ export default {
   methods: {
     loadEvents: function () {
       this.axios
-        .get("http://192.168.178.20:8089/event/")
+        .get("http://192.168.99.100:8089/event/")
         .then((response) => (this.cards = response.data));
     },
     openEventDetails: function(eventDetails){
