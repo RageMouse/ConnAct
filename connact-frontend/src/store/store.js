@@ -18,8 +18,16 @@ export default new Vuex.Store({
         skills: [],
         interests: [],
         profile: {},
+        requests:[],
+        users:[]
     },
     getters: {
+        requests(state){
+            return state.requests
+        },
+        users(state){
+            return state.users
+        },
         events(state) {
             return state.events
         },
@@ -83,11 +91,31 @@ export default new Vuex.Store({
         updateProfile(state, profileModel) {
             state.profile = profileModel
         },
+        setUsers(state,users){
+            state.users = users;
+        },
         logout(state){
             state.userid = null
+           },
+        setRequests(state,requests){
+            state.requests = requests
         },
     },
     actions: {
+        loadRequests(context,eventid) {
+            return axios
+              .get("http://192.168.178.21:8089/event/requests/"+eventid)
+              .then((response) => {
+                  context.commit("setRequests",response.data)
+              });
+        },
+        loadUsers(context,eventid) {
+            return axios
+            .get("http://192.168.178.21:8089/event/users/"+eventid)
+              .then((response) => {
+                  context.commit("setUsers",response.data)
+              });
+        },
         getMyEvents(context, id) {
             return axios
                 .get(apiUrl + "event/" + id)

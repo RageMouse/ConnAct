@@ -66,6 +66,9 @@ export default {
         console.log(this.cards)
     },
     openEventDetails: function(eventDetails){
+      this.ownerId=eventDetails.ownerId
+      this.$store.dispatch("loadRequests", eventDetails.eventId)
+      this.$store.dispatch("loadUsers", eventDetails.eventId)
       this.$store.commit('updateEventDetail', eventDetails)
       this.$store.commit('updateEventDialog')
     }
