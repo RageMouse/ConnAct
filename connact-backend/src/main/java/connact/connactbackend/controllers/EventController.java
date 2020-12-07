@@ -79,6 +79,11 @@ public class EventController {
         System.out.println("Haalt alle unaccepted requests op van de owner bij een specifiek event  "+id.toString());
         return requestRepo.findAllByEventAndAcceptedAndRequesttype(eventRepo.findById(id).get(),false,"request");
     }
+    @GetMapping(path ="/invites/{id}")
+    public Iterable<Request> invitesUser(@PathVariable Long id) {
+        System.out.println("Haalt alle unaccepted invites op van de owner bij een specifiek event  "+id.toString());
+        return requestRepo.findAllByEmployeeAndAcceptedAndRequesttype(employeeRepo.findById(id).get(),false,"uitnodiging");
+    }
     @GetMapping(path ="/users/{id}")
     public Iterable<Request> requestsAcceptedUsers(@PathVariable Long id) {
         System.out.println("Haalt alle accepted requests op van de owner bij een specifiek event  "+id.toString());
@@ -94,7 +99,15 @@ public class EventController {
         requestRepo.save(request);
         return new ResponseEntity<>(request, HttpStatus.OK);
     }
+    @DeleteMapping(path = "/requests/kick/{id}")
+    public ResponseEntity<?> kickEmployee(@PathVariable Long id){
+        System.out.println("Kick started");
+        Request request = requestRepo.findById(id).get();
+        System.out.println("Found request to delete");
 
+        requestRepo.delete(request);
+        return new ResponseEntity<>(request, HttpStatus.OK);
+    }
     @GetMapping("/{userId}")
     public Iterable<Event> events(@PathVariable Long userId) {
         return eventRepo.findEventsByOwnerId(userId);

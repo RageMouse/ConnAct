@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.apache.commons.codec.binary.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -127,8 +126,13 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/{employeeId}")
-    public Employee get(@PathVariable Long employeeId){
-        return employeeRepo.findByEmployeeId(employeeId);
+    @PostMapping("/searchemployee")
+    public ResponseEntity<?> searchEmployee(@RequestBody EmployeeCreateModel employeeCreateModel){
+        System.out.println("Employee zoeken gestart");
+        System.out.println(employeeCreateModel.getUserName()+" NAAAM ");
+        Employee employee = employeeRepo.findByUserName(employeeCreateModel.getUserName());
+        System.out.println("Employee gevonden returned:" + employee.getEmployeeId());
+        return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
+
 }
