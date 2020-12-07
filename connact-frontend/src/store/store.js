@@ -19,11 +19,16 @@ export default new Vuex.Store({
         interests: [],
         profile: {},
         requests:[],
-        users:[]
+        invites:[],
+        users:[],
+        deletedRequest: null,
     },
     getters: {
         requests(state){
             return state.requests
+        },
+        invites(state){
+            return state.invites
         },
         users(state){
             return state.users
@@ -62,7 +67,6 @@ export default new Vuex.Store({
     mutations: {
         updateUserid(state, message) {
             state.userid = message
-            console.log(this.userid + 'dsdsff')
         },
         updateUser(state, user){
             state.user = user
@@ -100,6 +104,9 @@ export default new Vuex.Store({
         setRequests(state,requests){
             state.requests = requests
         },
+        setInvites(state,invites){
+            state.invites = invites
+        },
     },
     actions: {
         loadRequests(context,eventid) {
@@ -108,6 +115,57 @@ export default new Vuex.Store({
               .then((response) => {
                   context.commit("setRequests",response.data)
               });
+        },
+        acceptRequest(context,id){
+            return axios 
+            .put(
+                "http://192.168.178.21:8089/event/accept",
+                {
+                  id: id,
+                  accepted: true,
+                  
+                })
+                .then(response => {
+                  console.log(response.status);
+                })
+                .catch(error => {
+                  console.log(error.response)
+                })
+        },
+        loadInvites(context,employeeid){
+            console.log('employeeid  '+employeeid)
+            return axios
+              .get("http://192.168.178.21:8089/event/invites/"+employeeid)
+              .then((response) => {
+                  context.commit("setInvites",response.data)
+              });
+        },
+        
+        inviteEmployee(context,eventid){
+            return axios
+            .post("http://192.168.178.21:8089/event/request", {
+                employeeId: this.$store.state.userid,
+                eventId: eventid,  
+                requesttype: "uitnodiging",
+                accepted: false
+              })
+              .then((response) => {
+               
+                if (response.status !== 204) {
+                  this.alertSucces = true;
+                }
+              })
+              .catch((error) => {
+                console.log(error.response);
+              });
+        },
+        removeRequest(context, requestid){
+            return axios
+            .delete("http://192.168.178.21:8089/event/requests/kick/"+requestid)
+            .then((response) => {
+             
+                this.deletedRequest = response.data;
+            });
         },
         loadUsers(context,eventid) {
             return axios
@@ -179,6 +237,25 @@ export default new Vuex.Store({
                 .catch((error) => {
                     console.log(error.response);
                 });
+        },
+        createInvite(context, { employeeid, eventid }) {
+            console.log('start createinvite' +employeeid +eventid);
+            return axios
+               .post("http://192.168.178.21:8089/event/request", {
+                employeeId: employeeid,
+                eventId: eventid,
+                requesttype: "uitnodiging",
+                accepted: false
+              })
+              .then((response) => {
+               
+                if (response.status !== 204) {
+                  this.alertSucces = true;
+                }
+              })
+              .catch((error) => {
+                console.log(error.response);
+              });
         },
         loadProfile(context, employeeId) {
             return axios

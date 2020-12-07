@@ -65,10 +65,37 @@
              <ul id="users">
                  <li v-for="user in users" :key="user.event.eventId">
                  <v-card-text>
+                   <!-- In de lijst van request wordt de request verwijdert met user.id ook wel requestid -->
+                   <v-btn
+                    color="red"
+                    text
+                    @click.native.prevent="kick(user.id)"
+                  >
+                    X
+                  </v-btn>
                     {{ user.employee.userName }}
                   </v-card-text>
+                  
                  </li>
               </ul>
+             </div>
+             <div v-if="userid==getEvent.ownerId">
+               <v-card-title>
+                Invite employees
+                </v-card-title>
+                <v-text-field
+                v-model="username"
+                label="Username employee"
+                outlined
+                ></v-text-field>
+                <v-btn
+                    color="primary"
+                    text
+                    @click.native.prevent="searchEmployee(username,getEvent.eventId)"
+                  >
+                    Invite employee
+                  </v-btn>
+                
              </div>
             <v-alert
              class="elevation-12 mx-auto"
@@ -110,22 +137,38 @@ export default {
   },
   methods: {
      acceptRequest: function (id) {
-      this.axios
-        .put(
-          "http://192.168.178.21:8089/event/accept",
-          {
-            id: id,
-            accepted: true,
+       this.$store.dispatch('acceptRequest', id)
+    },
+    searchEmployee(username,eventid) {
+      console.log(username)
+            this.axios
+          .post("http://192.168.178.21:8089/employee/searchemployee", {
             
+            userName: username
           })
-          .then(response => {
-            console.log(response.status);
+          .then((response) => {
+            this.employeeid = response.data.employeeId
+            console.log(eventid +'jajaja')
+            this.$store.dispatch("createInvite", {
+              employeeid: this.employeeid,eventid
+            });
+
+            if (response.status !== 204) {
+              this.alertSucces = true;
+            }
           })
-          .catch(error => {
-            console.log(error.response)
-          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+        },
+    kick(requestid){
+         this.$store.dispatch('removeRequest', requestid)
+    },
+    invite(eventid){
+      this.$store.dispatch('inviteEmployee',eventid)
     },
     join(eventid) {
+      
      this.axios
         .post("http://192.168.178.21:8089/event/request", {
           employeeId: this.$store.state.userid,
@@ -163,6 +206,8 @@ export default {
   data: () => ({
     alert: false,
     alertSucces:false,
+    username: '',
+    employeeid:null,
   }),
   computed: {
     getDialog: {
