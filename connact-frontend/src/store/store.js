@@ -87,7 +87,7 @@ export default new Vuex.Store({
     actions: {
         getMyEvents(context, id) {
             return axios
-                .get( apiUrl + "event/" + id)
+                .get(apiUrl + "event/" + id)
                 .then((response) => {
                     context.commit("setEvents", response.data);
                 })
@@ -97,7 +97,7 @@ export default new Vuex.Store({
         },
         closeEvent(context, id) {
             return axios
-                .put( apiUrl + "event/" + id)
+                .put(apiUrl + "event/" + id)
                 .then((response) => {
                     console.log(response.status)
                 })
@@ -110,7 +110,7 @@ export default new Vuex.Store({
         },
         editEvent(context, data) {
             return axios
-                .put( apiUrl + "event/", {
+                .put(apiUrl + "event/", {
                     eventId: this.getters.eventId,
                     eventName: data.eventName,
                     eventDescription: data.eventDescription,
@@ -183,7 +183,7 @@ export default new Vuex.Store({
 
         deleteEvent(context, id) {
             return axios
-                .delete( apiUrl + "event/" + id)
+                .delete(apiUrl + "event/" + id)
                 .then(() => {
                     this.getMyEvents
                 })
@@ -191,5 +191,24 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
-    },
+        createEvent(context, data) {
+            return axios
+                .post(apiUrl + "event/", {
+                    ownerId: this.getters.userId,
+                    eventName: data.eventName,
+                    eventDescription: data.eventDescription,
+                    dateStart: data.dateStart,
+                    dateEnd: data.dateEnd,
+                })
+                .then((response) => {
+                    console.log(response.status);
+                    if (response.status !== 204) {
+                        this.alertSucces = true;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+    }
 })

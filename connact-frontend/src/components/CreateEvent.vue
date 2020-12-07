@@ -8,7 +8,7 @@
         <v-form ref="form" lazy-validation>
           <v-text-field
             id="eventName"
-            v-model="eventName"
+            v-model="form.eventName"
             :counter="25"
             :rules="nameRules"
             label="Name"
@@ -17,7 +17,7 @@
 
           <v-textarea
             id="eventDescription"
-            v-model="eventDescription"
+            v-model="form.eventDescription"
             :counter="255"
             :rules="[(v) => !!v || 'Description is required']"
             label="Description"
@@ -33,7 +33,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="dateStart"
+                v-model="form.dateStart"
                 label="Start Date for event"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -42,7 +42,7 @@
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="dateStart"
+              v-model="form.dateStart"
               :min="getNowDate"
             ></v-date-picker>
           </v-menu>
@@ -56,7 +56,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="dateEnd"
+                v-model="form.dateEnd"
                 label="End Date for event"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -64,12 +64,12 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="dateEnd" :min="dateStart"></v-date-picker>
+            <v-date-picker v-model="form.dateEnd" :min="form.dateStart"></v-date-picker>
           </v-menu>
         </v-form>
       </v-card-text>
       <v-card-actions
-        ><v-btn id="validateButton" color="success" @click="send">Sumbit</v-btn>
+        ><v-btn id="validateButton" color="success" @click="createEvent">Sumbit</v-btn>
       </v-card-actions>
     </v-card>
     <br />
@@ -89,40 +89,27 @@
 <script>
 export default {
   data: () => ({
-    ownerId: "",
-    eventName: "",
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 25) || "Name must be less than 25 characters",
     ],
-    eventDescription: "",
-    dateStart: "",
-    dateEnd: "",
+
     state: "",
     selectedDate: null,
     alertSucces: false,
+    form: {
+      ownerId: "",
+      eventName: "",
+      eventDescription: "",
+      dateStart: "",
+      dateEnd: "",
+    },
   }),
 
   methods: {
-    send: function () {
-      this.axios
-        .post("http://192.168.178.20:8089/event/", {
-          ownerId: this.$store.getters.userId,
-          eventName: this.eventName,
-          eventDescription: this.eventDescription,
-          dateStart: this.dateStart,
-          dateEnd: this.dateEnd,
-        })
-        .then((response) => {
-          console.log(response.status);
-          if (response.status !== 204) {
-            this.alertSucces = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    },
+    createEvent(){
+      return this.$store.dispatch("createEvent", this.form)
+    }
   },
 
   computed: {
