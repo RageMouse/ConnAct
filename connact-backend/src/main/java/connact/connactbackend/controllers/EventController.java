@@ -118,4 +118,11 @@ public class EventController {
         Event event = eventRepo.getByEventId(eventId);
         eventRepo.delete(event);
     }
+
+    @PutMapping(path = "/leave/{employeeId}")
+    public void leaveEvent(@PathVariable Long employeeId, Long eventId){
+        Event event = eventRepo.getByEventId(eventId);
+        Employee employee = employeeRepo.findByEmployeeId(employeeId);
+//        event.getMembers().remove(employee);
+    }
 }
