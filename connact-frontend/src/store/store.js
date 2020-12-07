@@ -4,6 +4,8 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
+var apiUrl = "http://192.168.99.100:8089/"
+
 export default new Vuex.Store({
     state: {
         userid: '0',
@@ -13,9 +15,12 @@ export default new Vuex.Store({
         eventDialog: false,
         btnText: "",
         eventId: '',
+<<<<<<< HEAD
         skills: [],
         interests: [],
         profile: {},
+=======
+>>>>>>> develop
     },
     getters: {
         events(state) {
@@ -85,7 +90,7 @@ export default new Vuex.Store({
     actions: {
         getMyEvents(context, id) {
             return axios
-                .get("http://192.168.178.20:8089/event/" + id)
+                .get( apiUrl + "event/" + id)
                 .then((response) => {
                     context.commit("setEvents", response.data);
                 })
@@ -95,7 +100,7 @@ export default new Vuex.Store({
         },
         closeEvent(context, id) {
             return axios
-                .put("http://192.168.178.20:8089/event/" + id)
+                .put( apiUrl + "event/" + id)
                 .then((response) => {
                     console.log(response.status)
                 })
@@ -108,7 +113,7 @@ export default new Vuex.Store({
         },
         editEvent(context, data) {
             return axios
-                .put("http://192.168.178.20:8089/event/", {
+                .put( apiUrl + "event/", {
                     eventId: this.getters.eventId,
                     eventName: data.eventName,
                     eventDescription: data.eventDescription,
@@ -116,6 +121,7 @@ export default new Vuex.Store({
                     dateEnd: data.dateEnd
                 })
         },
+<<<<<<< HEAD
         loadSkills(context) {
             return axios
                 .get("http://192.168.178.20:8089/skill/")
@@ -179,5 +185,17 @@ export default new Vuex.Store({
                 })
         },
 
+=======
+        deleteEvent(context, id) {
+            return axios
+                .delete( apiUrl + "event/" + id)
+                .then(() => {
+                    this.getMyEvents
+                })
+                .catch(error => {
+                    throw new Error(error)
+                });
+        },
+>>>>>>> develop
     },
 })

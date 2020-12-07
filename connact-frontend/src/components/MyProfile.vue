@@ -122,12 +122,47 @@ export default {
 
   methods: {
     editProfile: function () {
+<<<<<<< HEAD
       this.form.profileId = this.getProfile.profileId
       this.$store.dispatch('editProfile', this.form)
+=======
+      this.axios
+        .put(
+          "http://192.168.99.100:8089/profile/",
+          {
+            profileId: this.profile.profileId,
+            displayName: this.editedDisplayName,
+            education: this.editedEducation,
+            skills: this.profile.skills,
+            interests: this.profile.interests
+          })
+          .then(response => {
+            console.log(response.status);
+          })
+          .catch(error => {
+            console.log(error.response)
+          })
+          this.axios
+            .get("http://192.168.99.100:8089/profile/")
+            .then((response) => (this.profile = response.data))
+          this.show = false
+>>>>>>> develop
     },
   },
   mounted() {
+<<<<<<< HEAD
     this.$store.dispatch("loadProfile", this.$store.getters.userId);
+=======
+    this.axios
+        .get("http://192.168.99.100:8089/profile/")
+        .then((response) => (this.profile = response.data))
+    this.axios
+        .get("http://192.168.99.100:8089/skill/")
+        .then((response) => (this.skills = response.data));
+    this.axios
+        .get("http://192.168.99.100:8089/interest/")
+        .then((response) => (this.interests = response.data));
+>>>>>>> develop
   },
 
   computed: {

@@ -30,7 +30,17 @@
             </v-card-text>
             <v-card-actions>
               <!-- <router-link :to="{path: '/showEvent/' + card.eventId}" tag=v"-btn"> -->
+<<<<<<< HEAD
               <v-btn text @click="openEventDetails(event)"> Details </v-btn>
+=======
+              <v-btn
+                id="detailsButton" 
+                text
+                @click="openEventDetails(event)"
+                >
+                Details
+              </v-btn>
+>>>>>>> develop
 
               <!-- </router-link> -->
               <v-spacer></v-spacer>
