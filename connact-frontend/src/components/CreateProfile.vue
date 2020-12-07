@@ -76,27 +76,6 @@ export default {
       this.form.userId = this.$store.getters.userId
       this.$store.dispatch("createProfile", this.form)
     },
-    send: function () {
-      this.axios
-        .post(
-          "http://192.168.99.100:8089/profile/",
-          {
-            displayName: this.displayName,
-            education: this.education,
-            skills: this.selectedSkills,
-            interests: this.selectedInterests
-          })
-          .then(response => {
-            console.log(response.status);
-            if (response.status !== 204) {
-              this.alertSucces = true;
-            }
-          })
-          .catch(error => {
-            console.log(error.response);
-          });
-          this.hideForm()
-    },
   },
   computed: {
     getSkills: function () {

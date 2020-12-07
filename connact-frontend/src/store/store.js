@@ -4,7 +4,7 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.99.100:8089/"
+var apiUrl = "http://192.168.178.20:8089/"
 
 export default new Vuex.Store({
     state: {
@@ -15,12 +15,9 @@ export default new Vuex.Store({
         eventDialog: false,
         btnText: "",
         eventId: '',
-<<<<<<< HEAD
         skills: [],
         interests: [],
         profile: {},
-=======
->>>>>>> develop
     },
     getters: {
         events(state) {
@@ -121,24 +118,23 @@ export default new Vuex.Store({
                     dateEnd: data.dateEnd
                 })
         },
-<<<<<<< HEAD
         loadSkills(context) {
             return axios
-                .get("http://192.168.178.20:8089/skill/")
+                .get(apiUrl + "skill/")
                 .then((response) => {
                     context.commit('updateSkills', response.data)
                 });
         },
         loadInterests(context) {
             return axios
-                .get("http://192.168.178.20:8089/interest/")
+                .get(apiUrl + "interest/")
                 .then((response) => {
                     context.commit('updateInterests', response.data)
                 });
         },
         createProfile(context, profileCreateForm) {
             return axios
-                .post("http://192.168.178.20:8089/profile/", {
+                .post(apiUrl + "profile/", {
                     displayName: profileCreateForm.displayName,
                     education: profileCreateForm.education,
                     skills: profileCreateForm.skills,
@@ -155,14 +151,14 @@ export default new Vuex.Store({
         },
         loadProfile(context, employeeId) {
             return axios
-                .get("http://192.168.178.20:8089/profile/" + employeeId)
+                .get(apiUrl + "profile/" + employeeId)
                 .then((response) => {
                     context.commit('updateProfile', response.data)
                 })
         },
         editProfile(context, profileEditForm) {
             return axios
-                .put("http://192.168.178.20:8089/profile/", {
+                .put(apiUrl + "profile/", {
                     profileId: profileEditForm.profileId,
                     displayName: profileEditForm.editedDisplayName,
                     education: profileEditForm.editedEducation,
@@ -179,13 +175,12 @@ export default new Vuex.Store({
         },
         getUserById(context, id){
             return axios
-                .get("http://192.168.178.20:8089/employee/" + id)
+                .get(apiUrl + "employee/" + id)
                 .then((response) => {
                     context.commit('updateUser', response.data)
                 })
         },
 
-=======
         deleteEvent(context, id) {
             return axios
                 .delete( apiUrl + "event/" + id)
@@ -196,6 +191,5 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
->>>>>>> develop
     },
 })

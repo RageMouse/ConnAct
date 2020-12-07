@@ -15,42 +15,6 @@
         {{ getEvent.eventName }}
       </v-card-title>
 
-<<<<<<< HEAD
-      <v-card-text v-if="!getEvent.active">
-        event active: {{ getEvent.active }}
-      </v-card-text>
-
-      <v-card-text>
-        {{ getEvent.description }}
-      </v-card-text>
-
-      <v-card-text>
-        {{ getEvent.dateEnd }}
-      </v-card-text>
-
-      <v-card-text>
-        {{ getEvent.dateStart }}
-      </v-card-text>
-
-      <v-btn
-        v-if="getBtnText == 'join'"
-        color="primary"
-        text
-        @click="joinEvent"
-      >
-        Join event
-      </v-btn>
-
-      <v-btn
-        v-if="getBtnText == 'close'"
-        color="primary"
-        text
-        @click="closeEvent"
-      >
-        Close event
-      </v-btn>
-
-=======
       <br />
 
       <v-card-subtitle v-if="!getEvent.active">
@@ -87,7 +51,6 @@
         Close event
       </v-btn>
 
->>>>>>> develop
       <v-alert
         class="elevation-12 mx-auto"
         outlined
