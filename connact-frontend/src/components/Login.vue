@@ -67,13 +67,14 @@ export default {
     },
     send: function () {
       this.axios
-          .post("http://192.168.99.100:8089/employee/login", {
+          .post("http://192.168.178.20:8089/employee/login", {
             userName: this.username,
             password: this.password,
           })
           .then((response) => {
             this.username = response.data.userName
             this.$store.commit('updateUserid', response.data.employeeId)
+            this.$store.dispatch('getUserById', this.$store.getters.userId)
             console.log(response.status + 'statussss');
             console.log(response.data.lolname + 'ID');
 

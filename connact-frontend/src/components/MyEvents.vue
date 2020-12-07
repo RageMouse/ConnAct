@@ -40,23 +40,28 @@
 
               <!-- </router-link> -->
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="setEventId(event.eventId)" @click.stop="showEditForm=true">Edit</v-btn> 
+              <v-btn
+                color="primary"
+                @click="setEventId(event.eventId)"
+                @click.stop="showEditForm = true"
+                >Edit</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-      <EditEvent :visible="showEditForm" @close="showEditForm=false"/>
+    <EditEvent :visible="showEditForm" @close="showEditForm = false" />
   </v-card>
 </template>
 
 <script>
-import EditEvent from '@/components/EditEvent.vue'
- 
+import EditEvent from "@/components/EditEvent.vue";
+
 export default {
   name: "myEvents",
   components: {
-    EditEvent
+    EditEvent,
   },
   computed: {
     events() {
@@ -65,15 +70,15 @@ export default {
   },
   mounted() {
     this.loadEvents();
-    this.$store.commit('updateBtnText', "close")
+    this.$store.commit("updateBtnText", "close");
   },
   methods: {
     loadEvents() {
       return this.$store.dispatch("getMyEvents", this.$store.getters.userId);
     },
-    openEventDetails(eventDetails){
-      this.$store.commit('updateEventDetail', eventDetails)
-      this.$store.commit('updateEventDialog')
+    openEventDetails(eventDetails) {
+      this.$store.commit("updateEventDetail", eventDetails);
+      this.$store.commit("updateEventDialog");
     },
     setEventId(id) {
       return this.$store.dispatch("setEventId", id);

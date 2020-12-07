@@ -73,8 +73,8 @@ export default {
     closeDialog: function () {
       this.$store.commit("updateEventDialog");
     },
-    closeEvent: function(){
-      this.$store.dispatch('closeEvent', this.getEvent.eventId)
+    closeEvent: function () {
+      this.$store.dispatch("closeEvent", this.getEvent.eventId);
     },
     joinEvent: function () {
       // join event here

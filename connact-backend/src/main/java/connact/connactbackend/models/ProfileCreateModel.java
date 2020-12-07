@@ -11,7 +11,7 @@ import java.util.List;
 public class ProfileCreateModel {
     private String displayName;
     private String education;
-    private Employee employee;
+    private Long employeeId;
     private List<Skill> skills;
     private List<Interest> interests;
 }

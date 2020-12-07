@@ -4,21 +4,27 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.99.100:8089/"
+var apiUrl = "http://192.168.178.20:8089/"
 
 export default new Vuex.Store({
     state: {
-        userid: '1',
-        user: null,
+        userid: '0',
+        user: {},
         events: {},
         eventDetail: {},
         eventDialog: false,
         btnText: "",
         eventId: '',
+        skills: [],
+        interests: [],
+        profile: {},
     },
     getters: {
         events(state) {
             return state.events
+        },
+        user(state){
+            return state.user
         },
         userId(state) {
             return state.userid
@@ -34,12 +40,24 @@ export default new Vuex.Store({
         },
         eventId(state) {
             return state.eventId
-        }
+        },
+        skills(state) {
+            return state.skills
+        },
+        interests(state) {
+            return state.interests
+        },
+        profile(state) {
+            return state.profile
+        },
     },
     mutations: {
         updateUserid(state, message) {
             state.userid = message
             console.log(this.userid + 'dsdsff')
+        },
+        updateUser(state, user){
+            state.user = user
         },
         setEvents(state, events) {
             state.events = events;
@@ -55,7 +73,16 @@ export default new Vuex.Store({
         },
         setEventId(state, id) {
             state.eventId = id;
-        }
+        },
+        updateSkills(state, skills) {
+            state.skills = skills
+        },
+        updateInterests(state, interests) {
+            state.interests = interests
+        },
+        updateProfile(state, profileModel) {
+            state.profile = profileModel
+        },
     },
     actions: {
         getMyEvents(context, id) {
@@ -91,6 +118,69 @@ export default new Vuex.Store({
                     dateEnd: data.dateEnd
                 })
         },
+        loadSkills(context) {
+            return axios
+                .get(apiUrl + "skill/")
+                .then((response) => {
+                    context.commit('updateSkills', response.data)
+                });
+        },
+        loadInterests(context) {
+            return axios
+                .get(apiUrl + "interest/")
+                .then((response) => {
+                    context.commit('updateInterests', response.data)
+                });
+        },
+        createProfile(context, profileCreateForm) {
+            return axios
+                .post(apiUrl + "profile/", {
+                    displayName: profileCreateForm.displayName,
+                    education: profileCreateForm.education,
+                    skills: profileCreateForm.skills,
+                    interests: profileCreateForm.interests,
+                    employeeId: profileCreateForm.userId,
+                })
+                .then((response) => {
+                    context.commit('updateProfile', response.data)
+                    console.log(response.status);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+        loadProfile(context, employeeId) {
+            return axios
+                .get(apiUrl + "profile/" + employeeId)
+                .then((response) => {
+                    context.commit('updateProfile', response.data)
+                })
+        },
+        editProfile(context, profileEditForm) {
+            return axios
+                .put(apiUrl + "profile/", {
+                    profileId: profileEditForm.profileId,
+                    displayName: profileEditForm.editedDisplayName,
+                    education: profileEditForm.editedEducation,
+                    skills: profileEditForm.editedSkills,
+                    interests: profileEditForm.editedInterests,
+                })
+                .then((response) => {
+                    context.commit('updateProfile', response.data)
+                    console.log(response.status);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+        getUserById(context, id){
+            return axios
+                .get(apiUrl + "employee/" + id)
+                .then((response) => {
+                    context.commit('updateUser', response.data)
+                })
+        },
+
         deleteEvent(context, id) {
             return axios
                 .delete(apiUrl + "event/" + id)
