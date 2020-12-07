@@ -61,7 +61,7 @@ export default {
   methods: {
     loadEvents: function () {
       this.axios
-        .get("http://192.168.178.20:8089/event/")
+        .get("http://192.168.178.21:8089/event/")
         .then((response) => (this.cards = response.data));
         console.log(this.cards)
     },

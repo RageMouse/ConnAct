@@ -4,11 +4,11 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.178.20:8089/"
+var apiUrl = "http://192.168.178.21:8089/"
 
 export default new Vuex.Store({
     state: {
-        userid: '0',
+        userid: null,
         user: {},
         events: {},
         eventDetail: {},
@@ -82,6 +82,9 @@ export default new Vuex.Store({
         },
         updateProfile(state, profileModel) {
             state.profile = profileModel
+        },
+        logout(state){
+            state.userid = null
         },
     },
     actions: {
