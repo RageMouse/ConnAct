@@ -140,15 +140,12 @@ export default {
        this.$store.dispatch('acceptRequest', id)
     },
     searchEmployee(username,eventid) {
-      console.log(username)
             this.axios
-          .post("http://192.168.178.21:8089/employee/searchemployee", {
-            
+          .post("http://192.168.178.21:8089/employee/searchEmployee", {  
             userName: username
           })
           .then((response) => {
             this.employeeid = response.data.employeeId
-            console.log(eventid +'jajaja')
             this.$store.dispatch("createInvite", {
               employeeid: this.employeeid,eventid
             });

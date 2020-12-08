@@ -111,7 +111,7 @@ export default new Vuex.Store({
     actions: {
         loadRequests(context,eventid) {
             return axios
-              .get("http://192.168.178.21:8089/event/requests/"+eventid)
+              .get(apiUrl+"event/requests/"+eventid)
               .then((response) => {
                   context.commit("setRequests",response.data)
               });
@@ -119,7 +119,7 @@ export default new Vuex.Store({
         acceptRequest(context,id){
             return axios 
             .put(
-                "http://192.168.178.21:8089/event/accept",
+                apiUrl+"event/accept",
                 {
                   id: id,
                   accepted: true,
@@ -133,9 +133,8 @@ export default new Vuex.Store({
                 })
         },
         loadInvites(context,employeeid){
-            console.log('employeeid  '+employeeid)
             return axios
-              .get("http://192.168.178.21:8089/event/invites/"+employeeid)
+              .get(apiUrl+"event/invites/"+employeeid)
               .then((response) => {
                   context.commit("setInvites",response.data)
               });
@@ -143,7 +142,7 @@ export default new Vuex.Store({
         
         inviteEmployee(context,eventid){
             return axios
-            .post("http://192.168.178.21:8089/event/request", {
+            .post(apiUrl+"event/request", {
                 employeeId: this.$store.state.userid,
                 eventId: eventid,  
                 requesttype: "uitnodiging",
@@ -161,7 +160,7 @@ export default new Vuex.Store({
         },
         removeRequest(context, requestid){
             return axios
-            .delete("http://192.168.178.21:8089/event/requests/kick/"+requestid)
+            .delete( apiUrl+"event/requests/kick/"+requestid)
             .then((response) => {
              
                 this.deletedRequest = response.data;
@@ -169,7 +168,7 @@ export default new Vuex.Store({
         },
         loadUsers(context,eventid) {
             return axios
-            .get("http://192.168.178.21:8089/event/users/"+eventid)
+            .get( apiUrl +"event/users/"+eventid)
               .then((response) => {
                   context.commit("setUsers",response.data)
               });
@@ -239,9 +238,8 @@ export default new Vuex.Store({
                 });
         },
         createInvite(context, { employeeid, eventid }) {
-            console.log('start createinvite' +employeeid +eventid);
             return axios
-               .post("http://192.168.178.21:8089/event/request", {
+               .post(apiUrl+"event/request", {
                 employeeId: employeeid,
                 eventId: eventid,
                 requesttype: "uitnodiging",
@@ -281,6 +279,7 @@ export default new Vuex.Store({
                     console.log(error.response);
                 });
         },
+        /*
         getUserById(context, id){
             return axios
                 .get(apiUrl + "employee/" + id)
@@ -288,7 +287,7 @@ export default new Vuex.Store({
                     context.commit('updateUser', response.data)
                 })
         },
-
+        */
         deleteEvent(context, id) {
             return axios
                 .delete(apiUrl + "event/" + id)

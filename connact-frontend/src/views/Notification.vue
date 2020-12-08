@@ -21,25 +21,9 @@ export default {
   },
   data() {
     return {
-      projects: [
-        {
-          title: "A Dreaming Child Center",
-          percentage: 86
-        },
-        {
-          title: "Youth Social Exchange",
-
-          percentage: 62
-        },
-        {
-          title: "Youth Voice Festival",
-          percentage: 73
-        }
-      ]
     };
   },
   mounted(){
-    console.log('jajaja'+this.$store.state.userid)
     this.$store.dispatch("loadInvites", this.$store.state.userid)
   },
   computed: {

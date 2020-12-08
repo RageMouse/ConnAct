@@ -62,9 +62,6 @@ export default {
   },
 
   methods: {
-    login () {
-      this.$store.dispatch('login', {email: this.email, password: this.password})
-    },
     send: function () {
       this.axios
           .post("http://192.168.178.21:8089/employee/login", {
@@ -74,9 +71,7 @@ export default {
           .then((response) => {
             this.username = response.data.userName
             this.$store.commit('updateUserid', response.data.employeeId)
-            this.$store.dispatch('getUserById', this.$store.getters.userId)
-            console.log(response.status + 'statussss');
-            console.log(response.data.lolname + 'ID');
+
 
             if (response.status !== 204) {
               this.alertSucces = true;
