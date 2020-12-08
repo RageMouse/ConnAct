@@ -1,9 +1,41 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">Notification Page</h1>
-      </v-col>
-    </v-row>
+    
+    <projectinvite
+    class="project-invite"
+        v-for="(invite, index) in invites"
+        :key="'project: ' + index"
+        :employee="invite.employee.userName"
+        :event="invite.event.eventName"
+        :requestid="invite.id"/>
   </v-container>
 </template>
+<script>
+// @ is an alias to /src
+import projectinvite from '@/components/ProjectInvite.vue'
+
+export default {
+  name: 'test',
+  components: {
+    projectinvite
+  },
+  data() {
+    return {
+    };
+  },
+  mounted(){
+    this.$store.dispatch("loadInvites", this.$store.state.userid)
+  },
+  computed: {
+    invites() {
+      return this.$store.getters.invites;
+    },
+    
+    userid: {
+        get () {
+        return this.$store.state.userid
+          }
+        },
+  },
+}
+</script>
