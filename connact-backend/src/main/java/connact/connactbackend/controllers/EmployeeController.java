@@ -63,14 +63,12 @@ public class EmployeeController {
         String finalsalt = bytetoString(bytedsalt);
         employeeCreateModel.setSalt(finalsalt);
         String generatedHashPassword = hash(employeeCreateModel.getPassword(),stringToByte(finalsalt));
-        System.out.println("SALTTT: "+finalsalt);
+
 
         Employee employee = new Employee(employeeCreateModel.getUserName(), generatedHashPassword,employeeCreateModel.getSalt());
         employeeRepo.save(employee);
         String password = hash(employeeCreateModel.getPassword(),stringToByte(finalsalt));
-        if(password.equals(generatedHashPassword)){
-            System.out.println("HIER KLOPT HET NOG WEL");
-        }
+
 
 
         employee.setSalt(null);
@@ -89,14 +87,6 @@ public class EmployeeController {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-            /*String s = bytetoString(saltG);
-            System.out.println(s + "  DIT IS SSSSS");
-            byte[] yikes = stringToByte(s);
-            String a = bytetoString(yikes);
-            System.out.println(a + "DIT IS AAAA");
-            generatedPassword = generatedPassword + bytetoString(saltG);
-            System.out.println(generatedPassword);
-            System.out.println(generatedPassword.replace(bytetoString(saltG),""));*/
         }
         catch (NoSuchAlgorithmException e){
             e.printStackTrace();
@@ -126,12 +116,9 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("/searchemployee")
+    @PostMapping("/searchEmployee")
     public ResponseEntity<?> searchEmployee(@RequestBody EmployeeCreateModel employeeCreateModel){
-        System.out.println("Employee zoeken gestart");
-        System.out.println(employeeCreateModel.getUserName()+" NAAAM ");
         Employee employee = employeeRepo.findByUserName(employeeCreateModel.getUserName());
-        System.out.println("Employee gevonden returned:" + employee.getEmployeeId());
         return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
 

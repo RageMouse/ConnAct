@@ -43,7 +43,7 @@ public class EventController {
         Event event = new Event(eventCreateModel.getOwnerId(), eventCreateModel.getEventName(), eventCreateModel.getEventDescription(), eventCreateModel.getDateStart(), eventCreateModel.getDateEnd());
         event = eventRepo.save(event);
         eventRepo.flush();
-        System.out.println(event.getEventId()+ " Adding owner to event");
+
         Request request = new Request(employeeRepo.findById(eventCreateModel.getOwnerId()).get(), event,"request",true);
         requestRepo.save(request);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
@@ -67,7 +67,7 @@ public class EventController {
 
         Event event = eventRepo.findById(requestCreateModel.getEventId()).get();
         Employee employee = employeeRepo.findById(requestCreateModel.getEmployeeId()).get();
-        System.out.println(employee.getEmployeeId() + "        IDS     "+ event.getEventId());
+
 
         Request request = new Request(employee, event,requestCreateModel.getRequesttype(),requestCreateModel.getAccepted());
         requestRepo.save(request);
@@ -76,24 +76,24 @@ public class EventController {
 
     @GetMapping(path ="/requests/{id}")
     public Iterable<Request> requestsUser(@PathVariable Long id) {
-        System.out.println("Haalt alle unaccepted requests op van de owner bij een specifiek event  "+id.toString());
+
         return requestRepo.findAllByEventAndAcceptedAndRequesttype(eventRepo.findById(id).get(),false,"request");
     }
     @GetMapping(path ="/invites/{id}")
     public Iterable<Request> invitesUser(@PathVariable Long id) {
-        System.out.println("Haalt alle unaccepted invites op van de owner bij een specifiek event  "+id.toString());
+
         return requestRepo.findAllByEmployeeAndAcceptedAndRequesttype(employeeRepo.findById(id).get(),false,"uitnodiging");
     }
     @GetMapping(path ="/users/{id}")
     public Iterable<Request> requestsAcceptedUsers(@PathVariable Long id) {
-        System.out.println("Haalt alle accepted requests op van de owner bij een specifiek event  "+id.toString());
+
         return requestRepo.findAllByEventAndAccepted(eventRepo.findById(id).get(),true);
     }
     @PutMapping(path = "/accept")
     public ResponseEntity<?> acceptRequest(@RequestBody RequestEditModel requestEditModel){
-        System.out.println("Request accepting started");
+
         Request request = requestRepo.findById(requestEditModel.getId()).get();
-        System.out.println("Found request");
+
         request.setAccepted(requestEditModel.getAccepted());
 
         requestRepo.save(request);
@@ -101,9 +101,9 @@ public class EventController {
     }
     @DeleteMapping(path = "/requests/kick/{id}")
     public ResponseEntity<?> kickEmployee(@PathVariable Long id){
-        System.out.println("Kick started");
+
         Request request = requestRepo.findById(id).get();
-        System.out.println("Found request to delete");
+
 
         requestRepo.delete(request);
         return new ResponseEntity<>(request, HttpStatus.OK);
