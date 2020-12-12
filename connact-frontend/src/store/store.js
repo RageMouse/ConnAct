@@ -317,5 +317,12 @@ export default new Vuex.Store({
                     console.log(error.response);
                 });
         },
+        deleteEmployee(context, id) {
+            return axios
+                .delete(apiUrl + "employee/" + id)
+                .catch(error => {
+                    throw new Error(error)
+                });
+        },
     }
 })
