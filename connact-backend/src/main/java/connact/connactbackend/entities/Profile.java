@@ -1,5 +1,6 @@
 package connact.connactbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +16,8 @@ public class Profile {
     private Long profileId;
     private String displayName;
     private String education;
-    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinColumn(name = "employeeId")
-    @JsonManagedReference
+    @JsonBackReference
+    @OneToOne
     private Employee employee;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "profile_skills",

@@ -11,4 +11,5 @@ public interface RequestRepo extends JpaRepository<Request, Long> {
     Iterable<Request> findAllByEventAndAcceptedAndRequesttype(Event event, Boolean accepted, String requesttype);
     Iterable<Request> findAllByEmployeeAndAcceptedAndRequesttype(Employee employee, Boolean accepted, String requesttype);
     Iterable<Request> findAllByEventAndAccepted(Event event, Boolean accepted);
+    Request findByEmployee_employeeId(Long employeeId);
 }

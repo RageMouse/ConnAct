@@ -43,7 +43,6 @@ public class ProfileController {
         List<Skill> skills = profileModel.getSkills();
         List<Interest> interests = profileModel.getInterests();
         Employee employee = employeeRepo.findByEmployeeId(profileModel.getEmployeeId());
-
         Profile profile = new Profile(profileModel.getDisplayName(), profileModel.getEducation(), employee, skills, interests);
 
         profileRepo.save(profile);
