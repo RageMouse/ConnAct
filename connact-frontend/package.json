@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "browserslist": "^4.15.0",
+    "browserslist": "^4.16.0",
     "core-js": "^3.8.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-router": "^3.4.9",
-    "vuetify": "^2.3.19",
+    "vuetify": "^2.3.21",
     "vuex": "^3.6.0"
   },
   "devDependencies": {
