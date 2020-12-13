@@ -45,8 +45,8 @@ export default {
     },
   },
     methods: {
-    deleteProject() {
-      return this.$store.dispatch("deleteEmployee", this.$route.params.id);
+    deleteEmployee() {
+      return this.$store.dispatch("deleteEmployee", this.$store.getters.userId);
     }
   },
 };
