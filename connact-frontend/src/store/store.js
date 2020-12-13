@@ -210,5 +210,18 @@ export default new Vuex.Store({
                     console.log(error.response);
                 });
         },
+        leaveEvent(context, employeeId){
+            return axios
+                .put(apiUrl + "event/leave/" + employeeId)
+                .then((response) => {
+                    console.log(response.status);
+                    if (response.status !== 204) {
+                        this.alertSucces = true;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
     }
 })
