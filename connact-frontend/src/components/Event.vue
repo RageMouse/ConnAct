@@ -61,11 +61,14 @@ export default {
   methods: {
     loadEvents: function () {
       this.axios
-        .get("http://192.168.178.20:8089/event/")
+        .get("http://192.168.178.21:8089/event/")
         .then((response) => (this.cards = response.data));
         console.log(this.cards)
     },
     openEventDetails: function(eventDetails){
+      this.ownerId=eventDetails.ownerId
+      this.$store.dispatch("loadRequests", eventDetails.eventId)
+      this.$store.dispatch("loadUsers", eventDetails.eventId)
       this.$store.commit('updateEventDetail', eventDetails)
       this.$store.commit('updateEventDialog')
     }

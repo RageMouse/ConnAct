@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.apache.commons.codec.binary.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -64,14 +63,12 @@ public class EmployeeController {
         String finalsalt = bytetoString(bytedsalt);
         employeeCreateModel.setSalt(finalsalt);
         String generatedHashPassword = hash(employeeCreateModel.getPassword(),stringToByte(finalsalt));
-        System.out.println("SALTTT: "+finalsalt);
+
 
         Employee employee = new Employee(employeeCreateModel.getUserName(), generatedHashPassword,employeeCreateModel.getSalt());
         employeeRepo.save(employee);
         String password = hash(employeeCreateModel.getPassword(),stringToByte(finalsalt));
-        if(password.equals(generatedHashPassword)){
-            System.out.println("HIER KLOPT HET NOG WEL");
-        }
+
 
 
         employee.setSalt(null);
@@ -90,14 +87,6 @@ public class EmployeeController {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-            /*String s = bytetoString(saltG);
-            System.out.println(s + "  DIT IS SSSSS");
-            byte[] yikes = stringToByte(s);
-            String a = bytetoString(yikes);
-            System.out.println(a + "DIT IS AAAA");
-            generatedPassword = generatedPassword + bytetoString(saltG);
-            System.out.println(generatedPassword);
-            System.out.println(generatedPassword.replace(bytetoString(saltG),""));*/
         }
         catch (NoSuchAlgorithmException e){
             e.printStackTrace();
@@ -127,8 +116,10 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/{employeeId}")
-    public Employee get(@PathVariable Long employeeId){
-        return employeeRepo.findByEmployeeId(employeeId);
+    @PostMapping("/searchEmployee")
+    public ResponseEntity<?> searchEmployee(@RequestBody EmployeeCreateModel employeeCreateModel){
+        Employee employee = employeeRepo.findByUserName(employeeCreateModel.getUserName());
+        return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
+
 }

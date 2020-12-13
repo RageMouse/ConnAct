@@ -4,11 +4,11 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.178.20:8089/"
+var apiUrl = "http://192.168.178.21:8089/"
 
 export default new Vuex.Store({
     state: {
-        userid: '0',
+        userid: null,
         user: {},
         events: {},
         eventDetail: {},
@@ -18,8 +18,21 @@ export default new Vuex.Store({
         skills: [],
         interests: [],
         profile: {},
+        requests:[],
+        invites:[],
+        users:[],
+        deletedRequest: null,
     },
     getters: {
+        requests(state){
+            return state.requests
+        },
+        invites(state){
+            return state.invites
+        },
+        users(state){
+            return state.users
+        },
         events(state) {
             return state.events
         },
@@ -54,7 +67,6 @@ export default new Vuex.Store({
     mutations: {
         updateUserid(state, message) {
             state.userid = message
-            console.log(this.userid + 'dsdsff')
         },
         updateUser(state, user){
             state.user = user
@@ -83,8 +95,84 @@ export default new Vuex.Store({
         updateProfile(state, profileModel) {
             state.profile = profileModel
         },
+        setUsers(state,users){
+            state.users = users;
+        },
+        logout(state){
+            state.userid = null
+           },
+        setRequests(state,requests){
+            state.requests = requests
+        },
+        setInvites(state,invites){
+            state.invites = invites
+        },
     },
     actions: {
+        loadRequests(context,eventid) {
+            return axios
+              .get(apiUrl+"event/requests/"+eventid)
+              .then((response) => {
+                  context.commit("setRequests",response.data)
+              });
+        },
+        acceptRequest(context,id){
+            return axios 
+            .put(
+                apiUrl+"event/accept",
+                {
+                  id: id,
+                  accepted: true,
+                  
+                })
+                .then(response => {
+                  console.log(response.status);
+                })
+                .catch(error => {
+                  console.log(error.response)
+                })
+        },
+        loadInvites(context,employeeid){
+            return axios
+              .get(apiUrl+"event/invites/"+employeeid)
+              .then((response) => {
+                  context.commit("setInvites",response.data)
+              });
+        },
+        
+        inviteEmployee(context,eventid){
+            return axios
+            .post(apiUrl+"event/request", {
+                employeeId: this.$store.state.userid,
+                eventId: eventid,  
+                requesttype: "uitnodiging",
+                accepted: false
+              })
+              .then((response) => {
+               
+                if (response.status !== 204) {
+                  this.alertSucces = true;
+                }
+              })
+              .catch((error) => {
+                console.log(error.response);
+              });
+        },
+        removeRequest(context, requestid){
+            return axios
+            .delete( apiUrl+"event/requests/kick/"+requestid)
+            .then((response) => {
+             
+                this.deletedRequest = response.data;
+            });
+        },
+        loadUsers(context,eventid) {
+            return axios
+            .get( apiUrl +"event/users/"+eventid)
+              .then((response) => {
+                  context.commit("setUsers",response.data)
+              });
+        },
         getMyEvents(context, id) {
             return axios
                 .get(apiUrl + "event/" + id)
@@ -149,6 +237,24 @@ export default new Vuex.Store({
                     console.log(error.response);
                 });
         },
+        createInvite(context, { employeeid, eventid }) {
+            return axios
+               .post(apiUrl+"event/request", {
+                employeeId: employeeid,
+                eventId: eventid,
+                requesttype: "uitnodiging",
+                accepted: false
+              })
+              .then((response) => {
+               
+                if (response.status !== 204) {
+                  this.alertSucces = true;
+                }
+              })
+              .catch((error) => {
+                console.log(error.response);
+              });
+        },
         loadProfile(context, employeeId) {
             return axios
                 .get(apiUrl + "profile/" + employeeId)
@@ -173,6 +279,7 @@ export default new Vuex.Store({
                     console.log(error.response);
                 });
         },
+        /*
         getUserById(context, id){
             return axios
                 .get(apiUrl + "employee/" + id)
@@ -180,7 +287,7 @@ export default new Vuex.Store({
                     context.commit('updateUser', response.data)
                 })
         },
-
+        */
         deleteEvent(context, id) {
             return axios
                 .delete(apiUrl + "event/" + id)
