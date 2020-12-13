@@ -18,25 +18,25 @@ export default new Vuex.Store({
         skills: [],
         interests: [],
         profile: {},
-        requests:[],
-        invites:[],
-        users:[],
+        requests: [],
+        invites: [],
+        users: [],
         deletedRequest: null,
     },
     getters: {
-        requests(state){
+        requests(state) {
             return state.requests
         },
-        invites(state){
+        invites(state) {
             return state.invites
         },
-        users(state){
+        users(state) {
             return state.users
         },
         events(state) {
             return state.events
         },
-        user(state){
+        user(state) {
             return state.user
         },
         userId(state) {
@@ -68,7 +68,7 @@ export default new Vuex.Store({
         updateUserid(state, message) {
             state.userid = message
         },
-        updateUser(state, user){
+        updateUser(state, user) {
             state.user = user
         },
         setEvents(state, events) {
@@ -95,97 +95,100 @@ export default new Vuex.Store({
         updateProfile(state, profileModel) {
             state.profile = profileModel
         },
-        setUsers(state,users){
+        setUsers(state, users) {
             state.users = users;
         },
-        logout(state){
+        logout(state) {
             state.userid = null
-           },
-        setRequests(state,requests){
+        },
+        setRequests(state, requests) {
             state.requests = requests
         },
-        setInvites(state,invites){
+        setInvites(state, invites) {
             state.invites = invites
         },
-        addEvent(state, event){
+        addEvent(state, event) {
             state.events.push(event)
+        },
+        removeEvent(state, id) {
+            state.events.splice(state.events.findIndex(event => event.eventId === id), 1)
         }
     },
     actions: {
-        loadRequests(context,eventid) {
+        loadRequests(context, eventid) {
             return axios
-              .get(apiUrl+"event/requests/"+eventid)
-              .then((response) => {
-                  context.commit("setRequests",response.data)
-              });
+                .get(apiUrl + "event/requests/" + eventid)
+                .then((response) => {
+                    context.commit("setRequests", response.data)
+                });
         },
-        acceptRequest(context,id){
-            return axios 
-            .put(
-                apiUrl+"event/accept",
-                {
-                  id: id,
-                  accepted: true,
-                  
-                })
+        acceptRequest(context, id) {
+            return axios
+                .put(
+                    apiUrl + "event/accept",
+                    {
+                        id: id,
+                        accepted: true,
+
+                    })
                 .then(response => {
-                  console.log(response.status);
+                    console.log(response.status);
                 })
                 .catch(error => {
-                  console.log(error.response)
+                    console.log(error.response)
                 })
         },
-        leaveEvent(context, userid){
-            return axios 
-            .put(
-                apiUrl+"event/leave/"+userid)
+        leaveEvent(context, userid) {
+            return axios
+                .put(
+                    apiUrl + "event/leave/" + userid)
                 .then(response => {
-                  console.log(response.status);
+                    console.log(response.status);
                 })
                 .catch(error => {
-                  console.log(error.response)
+                    console.log(error.response)
                 })
         },
-        loadInvites(context,employeeid){
+        loadInvites(context, employeeid) {
             return axios
-              .get(apiUrl+"event/invites/"+employeeid)
-              .then((response) => {
-                  context.commit("setInvites",response.data)
-              });
+                .get(apiUrl + "event/invites/" + employeeid)
+                .then((response) => {
+                    context.commit("setInvites", response.data)
+                });
         },
-        
-        inviteEmployee(context,eventid){
+
+        inviteEmployee(context, eventid) {
             return axios
-            .post(apiUrl+"event/request", {
-                employeeId: this.$store.state.userid,
-                eventId: eventid,  
-                requesttype: "uitnodiging",
-                accepted: false
-              })
-              .then((response) => {
-               
-                if (response.status !== 204) {
-                  this.alertSucces = true;
-                }
-              })
-              .catch((error) => {
-                console.log(error.response);
-              });
+                .post(apiUrl + "event/request", {
+                    employeeId: this.$store.state.userid,
+                    eventId: eventid,
+                    requesttype: "uitnodiging",
+                    accepted: false
+                })
+                .then((response) => {
+
+                    if (response.status !== 204) {
+                        this.alertSucces = true;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
         },
-        removeRequest(context, requestid){
+        removeRequest(context, requestid) {
             return axios
-            .delete( apiUrl+"event/requests/kick/"+requestid)
-            .then((response) => {
-             
-                this.deletedRequest = response.data;
-            });
+                .delete(apiUrl + "event/requests/kick/" + requestid)
+                .then((response) => {
+
+                    this.deletedRequest = response.data;
+                });
         },
-        loadUsers(context,eventid) {
+        loadUsers(context, eventid) {
             return axios
-            .get( apiUrl +"event/users/"+eventid)
-              .then((response) => {
-                  context.commit("setUsers",response.data)
-              });
+                .get(apiUrl + "event/users/" + eventid)
+                .then((response) => {
+                    context.commit("setUsers", response.data)
+                });
         },
         getMyEvents(context, id) {
             return axios
@@ -253,21 +256,21 @@ export default new Vuex.Store({
         },
         createInvite(context, { employeeid, eventid }) {
             return axios
-               .post(apiUrl+"event/request", {
-                employeeId: employeeid,
-                eventId: eventid,
-                requesttype: "uitnodiging",
-                accepted: false
-              })
-              .then((response) => {
-               
-                if (response.status !== 204) {
-                  this.alertSucces = true;
-                }
-              })
-              .catch((error) => {
-                console.log(error.response);
-              });
+                .post(apiUrl + "event/request", {
+                    employeeId: employeeid,
+                    eventId: eventid,
+                    requesttype: "uitnodiging",
+                    accepted: false
+                })
+                .then((response) => {
+
+                    if (response.status !== 204) {
+                        this.alertSucces = true;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
         },
         loadProfile(context, employeeId) {
             return axios
@@ -306,7 +309,7 @@ export default new Vuex.Store({
             return axios
                 .delete(apiUrl + "event/" + id)
                 .then(() => {
-                    this.getMyEvents
+                    context.commit("removeEvent", id)
                 })
                 .catch(error => {
                     throw new Error(error)
