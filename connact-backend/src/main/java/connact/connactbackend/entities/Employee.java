@@ -19,7 +19,7 @@ public class Employee {
     private String test;
     @Lob
     private String salt;
-    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "employee")
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "employee", orphanRemoval = true)
     @JoinColumn(name = "profileId")
     @JsonManagedReference
     private Profile profile;
@@ -31,6 +31,9 @@ public class Employee {
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "eventId" /*, referencedColumnName = "employeeId"*/)
     private Event myEvent;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "employee")
+    @JsonBackReference
+    private List<Request> request;
 
     public Employee() {
     }
