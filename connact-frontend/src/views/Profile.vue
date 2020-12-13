@@ -33,15 +33,7 @@ export default {
      showDeleteDialog: false
   }),
   methods: {
-    hasProfile: function (profile) {
-      if(Object.keys(profile).length===0){
-        console.log(Object.keys(profile).length)
-        return false
-      }
-      else {
-        return true
-      }
-    }
+
   },
   computed: {
     getProfile: function () {

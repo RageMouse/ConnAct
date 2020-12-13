@@ -1,10 +1,12 @@
 package connact.connactbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,9 @@ public class Event {
     private boolean active;
     @OneToOne(mappedBy = "myEvent")
     private Employee employee;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "event")
+    @JsonBackReference
+    private List<Request> request;
 
     public Event() {
 
