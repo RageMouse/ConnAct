@@ -132,10 +132,12 @@ public class EventController {
         eventRepo.delete(event);
     }
 
-    @PutMapping(path = "/leave/{employeeId}")
-    public void leaveEvent(@PathVariable Long employeeId, Long eventId){
-        Event event = eventRepo.getByEventId(eventId);
-        Employee employee = employeeRepo.findByEmployeeId(employeeId);
-//        event.getMembers().remove(employee);
+    @PutMapping(path = "/leave/{userid}")
+    public ResponseEntity<?> leave(@PathVariable Long userid){
+        Request request = requestRepo.findByEmployee_employeeId(userid);
+        request.setAccepted(false);
+
+        requestRepo.save(request);
+        return new ResponseEntity<>(request, HttpStatus.OK);
     }
 }

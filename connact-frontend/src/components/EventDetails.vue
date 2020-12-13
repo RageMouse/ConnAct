@@ -75,10 +75,20 @@
                   </v-btn>
                     {{ user.employee.userName }}
                   </v-card-text>
-                  
                  </li>
               </ul>
              </div>
+
+                  
+              <v-btn
+                color="red"
+                text
+                @click="leave"
+                v-if="$route.path=='/event'"
+              >
+                Leave event
+              </v-btn>
+
              <div v-if="userid==getEvent.ownerId">
                <v-card-title>
                 Invite employees
@@ -141,7 +151,7 @@ export default {
     },
     searchEmployee(username,eventid) {
             this.axios
-          .post("http://192.168.178.21:8089/employee/searchEmployee", {  
+          .post("http://192.168.178.20:8089/employee/searchEmployee", {  
             userName: username
           })
           .then((response) => {
@@ -167,7 +177,7 @@ export default {
     join(eventid) {
       
      this.axios
-        .post("http://192.168.178.21:8089/event/request", {
+        .post("http://192.168.178.20:8089/event/request", {
           employeeId: this.$store.state.userid,
           eventId: eventid,  
           requesttype: "request",
@@ -199,6 +209,9 @@ export default {
         this.alertTimer();
       }
     },
+    leave: function () {
+      this.$store.dispatch('leaveEvent', this.userid)
+    }
   },
   data: () => ({
     alert: false,

@@ -4,7 +4,7 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.178.21:8089/"
+var apiUrl = "http://192.168.178.20:8089/"
 
 export default new Vuex.Store({
     state: {
@@ -125,6 +125,17 @@ export default new Vuex.Store({
                   accepted: true,
                   
                 })
+                .then(response => {
+                  console.log(response.status);
+                })
+                .catch(error => {
+                  console.log(error.response)
+                })
+        },
+        leaveEvent(context, userid){
+            return axios 
+            .put(
+                apiUrl+"event/leave/"+userid)
                 .then(response => {
                   console.log(response.status);
                 })
@@ -307,19 +318,6 @@ export default new Vuex.Store({
                     dateStart: data.dateStart,
                     dateEnd: data.dateEnd,
                 })
-                .then((response) => {
-                    console.log(response.status);
-                    if (response.status !== 204) {
-                        this.alertSucces = true;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-        },
-        leaveEvent(context, employeeId){
-            return axios
-                .put(apiUrl + "event/leave/" + employeeId)
                 .then((response) => {
                     console.log(response.status);
                     if (response.status !== 204) {

@@ -3,7 +3,8 @@
     <v-row class="text-center">
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">My Profile Page</h1>
-        <CreateProfile v-if="showCreateProfile"/>
+        <CreateProfile v-if="Object.keys(getProfile).length===0"/>
+        <!-- <CreateProfile v-if="!hasProfile(getProfile)"/> -->
         <MyProfile/>
       </v-col>
     </v-row>
@@ -26,15 +27,23 @@ export default {
     this.$store.dispatch('loadInterests')
   },
   data: () => ({
-     showCreateProfile: true,
+
   }),
   methods: {
-    closeCreateProfile(){
-      this.showCreateProfile = false
-    },
+    hasProfile: function (profile) {
+      if(Object.keys(profile).length===0){
+        console.log(Object.keys(profile).length)
+        return false
+      }
+      else {
+        return true
+      }
+    }
   },
   computed: {
-
+    getProfile: function () {
+      return this.$store.getters.profile
+    }
   }
 }
 </script>
