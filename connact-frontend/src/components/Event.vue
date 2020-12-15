@@ -22,21 +22,16 @@
             <v-card-text>
               <div>
                 Date Start:
-                {{event.dateStart}}
-                <br/>
+                {{ event.dateStart }}
+                <br />
                 Date End:
-                {{event.dateEnd}}
+                {{ event.dateEnd }}
               </div>
             </v-card-text>
             <v-card-actions>
-
-            <v-btn
-              id="detailsButton" 
-              text
-              @click="openEventDetails(event)"
-              >
-              Details
-            </v-btn>
+              <v-btn id="detailsButton" text @click="openEventDetails(event)">
+                Details
+              </v-btn>
 
               <v-spacer></v-spacer>
 
@@ -56,30 +51,27 @@ export default {
   name: "allEvents",
   mounted() {
     this.loadEvents();
-    this.$store.commit('updateBtnText', "join")
+    this.$store.commit("updateBtnText", "join");
   },
   methods: {
     loadEvents: function () {
       return this.$store.dispatch("loadEvents");
     },
-    openEventDetails: function(eventDetails){
-      this.ownerId=eventDetails.ownerId
-      this.$store.dispatch("loadRequests", eventDetails.eventId)
-      this.$store.dispatch("loadUsers", eventDetails.eventId)
-      this.$store.commit('updateEventDetail', eventDetails)
-      this.$store.commit('updateEventDialog')
-    }
+    openEventDetails: function (eventDetails) {
+      this.ownerId = eventDetails.ownerId;
+      this.$store.dispatch("loadRequests", eventDetails.eventId);
+      this.$store.dispatch("loadUsers", eventDetails.eventId);
+      this.$store.commit("updateEventDetail", eventDetails);
+      this.$store.commit("updateEventDialog");
+    },
   },
   data: () => ({
     cards: [],
   }),
   computed: {
-    activeCards: function(){  
-      return this.cards.filter(c => c.active==true)
+    events() {
+      return this.$store.getters.events.filter(event => event.active==true);
     },
-        events() {
-      return this.$store.getters.events;
-    },
-  }
+  },
 };
 </script>
