@@ -156,7 +156,6 @@ export default new Vuex.Store({
                     context.commit("setInvites", response.data)
                 });
         },
-
         inviteEmployee(context, eventid) {
             return axios
                 .post(apiUrl + "event/request", {
@@ -338,5 +337,12 @@ export default new Vuex.Store({
                     throw new Error(error)
                 });
         },
+        loadEvents(context) {
+            return axios
+            .get(apiUrl + "event/")
+            .then((response) => {
+                context.commit("setEvents", response.data);
+            })
+        }
     }
 })

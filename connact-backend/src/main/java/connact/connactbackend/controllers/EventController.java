@@ -13,8 +13,6 @@ import connact.connactbackend.models.EventEditModel;
 
 import connact.connactbackend.repositories.EventRepo;
 import connact.connactbackend.repositories.RequestRepo;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

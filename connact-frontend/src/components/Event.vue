@@ -3,8 +3,8 @@
     <v-container fluid>
       <v-row dense>
         <v-col
-          v-for="card in activeCards"
-          :key="card.eventId"
+          v-for="event in events"
+          :key="event.eventId"
           cols="12"
           md="4"
           sm="3"
@@ -17,15 +17,15 @@
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
             >
-              <v-card-title v-text="card.eventName"></v-card-title>
+              <v-card-title v-text="event.eventName"></v-card-title>
             </v-img>
             <v-card-text>
               <div>
                 Date Start:
-                {{card.dateStart}}
+                {{event.dateStart}}
                 <br/>
                 Date End:
-                {{card.dateEnd}}
+                {{event.dateEnd}}
               </div>
             </v-card-text>
             <v-card-actions>
@@ -33,7 +33,7 @@
             <v-btn
               id="detailsButton" 
               text
-              @click="openEventDetails(card)"
+              @click="openEventDetails(event)"
               >
               Details
             </v-btn>
@@ -60,10 +60,7 @@ export default {
   },
   methods: {
     loadEvents: function () {
-      this.axios
-        .get("http://192.168.178.20:8089/event/")
-        .then((response) => (this.cards = response.data));
-        console.log(this.cards)
+      return this.$store.dispatch("loadEvents");
     },
     openEventDetails: function(eventDetails){
       this.ownerId=eventDetails.ownerId
@@ -79,6 +76,9 @@ export default {
   computed: {
     activeCards: function(){  
       return this.cards.filter(c => c.active==true)
+    },
+        events() {
+      return this.$store.getters.events;
     },
   }
 };

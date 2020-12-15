@@ -4,7 +4,6 @@ import connact.connactbackend.entities.Employee;
 import connact.connactbackend.models.EmployeeCreateModel;
 import connact.connactbackend.repositories.EmployeeRepo;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,6 @@ public class EmployeeController {
             employee.setSalt("");
             return new ResponseEntity<>(employee, HttpStatus.CREATED);
         } else {
-            //wachtwoord klopt
             return ResponseEntity.badRequest().body("Wrong password");
         }
     }
@@ -81,10 +79,6 @@ public class EmployeeController {
         return generatedPassword;
     }
 
-    /*public boolean checkPassword(String hash, byte[] salt){
-        String generatedHash = hash(hash, salt);
-        return hashh.equals(generatedHash);
-    }*/
     public byte[] createsalt() {
         SecureRandom random = new SecureRandom();
         saltG = new byte[16];
