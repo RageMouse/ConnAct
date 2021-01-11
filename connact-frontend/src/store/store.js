@@ -323,8 +323,8 @@ export default new Vuex.Store({
                     dateStart: data.dateStart,
                     dateEnd: data.dateEnd,
                 })
-                .then(({ data }) => {
-                    context.commit("addEvent", data)
+                .then(( response) => {
+                    context.commit("addEvent", response.data)
                 })
                 .catch((error) => {
                     console.log(error.response);
