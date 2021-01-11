@@ -4,7 +4,7 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.99.100:8089/"
+var apiUrl = "http://192.168.178.20:8089/"
 
 export default new Vuex.Store({
     state: {
@@ -331,8 +331,10 @@ export default new Vuex.Store({
                 });
         },
         deleteEmployee(context, id) {
+            var empty = {}
             return axios
                 .delete(apiUrl + "employee/" + id)
+                .then(context.commit('updateProfile', empty))
                 .catch(error => {
                     throw new Error(error)
                 });
