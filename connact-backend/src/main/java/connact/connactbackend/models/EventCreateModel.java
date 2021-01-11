@@ -9,6 +9,6 @@ public class EventCreateModel {
     private Long ownerId;
     private String eventName;
     private String eventDescription;
-    private Date dateStart;
-    private Date dateEnd;
+    private String dateStart;
+    private String dateEnd;
 }

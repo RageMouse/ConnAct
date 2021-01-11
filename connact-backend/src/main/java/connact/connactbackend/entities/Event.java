@@ -19,8 +19,8 @@ public class Event {
     private String history;
     private String eventName;
     private String description;
-    private Date dateStart;
-    private Date dateEnd;
+    private String dateStart;
+    private String dateEnd;
     private boolean active;
     @OneToOne(mappedBy = "myEvent")
     private Employee employee;
@@ -32,7 +32,7 @@ public class Event {
 
     }
 
-    public Event(Long ownerId ,String eventName, String description, Date dateStart, Date dateEnd) {
+    public Event(Long ownerId ,String eventName, String description, String dateStart, String dateEnd) {
         this.ownerId = ownerId;
         this.eventName = eventName;
         this.description = description;

@@ -9,6 +9,6 @@ public class EventEditModel {
     private Long eventId;
     private String eventName;
     private String eventDescription;
-    private Date dateStart;
-    private Date dateEnd;
+    private String dateStart;
+    private String dateEnd;
 }
