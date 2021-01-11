@@ -4,7 +4,7 @@ import axios from "axios"
 
 Vue.use(Vuex)
 
-var apiUrl = "http://192.168.178.20:8089/"
+var apiUrl = "http://192.168.99.100:8089/"
 
 export default new Vuex.Store({
     state: {
@@ -323,8 +323,8 @@ export default new Vuex.Store({
                     dateStart: data.dateStart,
                     dateEnd: data.dateEnd,
                 })
-                .then((response) => {
-                    context.commit("addEvent", response)
+                .then(({ data }) => {
+                    context.commit("addEvent", data)
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -341,10 +341,10 @@ export default new Vuex.Store({
         },
         loadEvents(context) {
             return axios
-            .get(apiUrl + "event/")
-            .then((response) => {
-                context.commit("setEvents", response.data);
-            })
+                .get(apiUrl + "event/")
+                .then((response) => {
+                    context.commit("setEvents", response.data);
+                })
         }
     }
 })

@@ -64,7 +64,7 @@ export default {
   methods: {
     send: function () {
       this.axios
-          .post("http://192.168.178.20:8089/employee/login", {
+          .post("http://192.168.99.100:8089/employee/login", {
             userName: this.username,
             password: this.password,
           })
@@ -75,6 +75,7 @@ export default {
 
             if (response.status !== 204) {
               this.alertSucces = true;
+              this.$router.push('myEvents')
             }
           })
           .catch((error) => {
