@@ -6,7 +6,7 @@
       </router-link>
       <v-tabs >
         <v-tab to="/myEvents">My Events</v-tab>
-        <v-tab to="/chat">Chats</v-tab>
+        <!-- <v-tab to="/chat">Chats</v-tab> -->
         <v-tab to="/people">People</v-tab>
         <v-tab to="/event">Events</v-tab>
         <v-tab to="/notification">Notification</v-tab>

@@ -97,8 +97,18 @@
                 />
               </v-form>
             </v-card-text>
+            <v-card-actions>
 
+            <DeleteEmployee
+              :visible="showDeleteDialog"
+              @close="showDeleteDialog = false"
+            />
             <v-btn @click="editProfile" color="primary" text> Save </v-btn>
+            <v-spacer></v-spacer>
+                        <v-btn depressed color="error" @click.stop="showDeleteDialog = true"
+              >Delete</v-btn
+            >
+            </v-card-actions>
           </div>
         </v-expand-transition>
       </v-card>
@@ -108,8 +118,13 @@
 
 
 <script>
+import DeleteEmployee from "@/components/DeleteEmployee.vue";
+
 export default {
-  data: () => ({  
+  components: {
+    DeleteEmployee,
+  },
+  data: () => ({
     form: {
       profileId: 0,
       editedDisplayName: "",
@@ -118,12 +133,13 @@ export default {
       editedInterests: [],
     },
     show: false,
+    showDeleteDialog: false
   }),
 
   methods: {
     editProfile: function () {
-      this.form.profileId = this.getProfile.profileId
-      this.$store.dispatch('editProfile', this.form)
+      this.form.profileId = this.getProfile.profileId;
+      this.$store.dispatch("editProfile", this.form);
     },
   },
   mounted() {
@@ -134,11 +150,11 @@ export default {
     getProfile: function () {
       return this.$store.getters.profile;
     },
-    getSkills: function (){
-      return this.$store.getters.skills
+    getSkills: function () {
+      return this.$store.getters.skills;
     },
-    getInterests: function (){
-      return this.$store.getters.interests
+    getInterests: function () {
+      return this.$store.getters.interests;
     },
   },
 };
